@@ -1,7 +1,15 @@
 import React, {Component} from 'react';
-import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
-// import {StackNavigator} from 'react-navigation'
+import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
+import {StackNavigator, NavigationActions} from 'react-navigation'
 import Sign_up from './Sign_up'
+
+// const navigateAction = NavigationActions.navigate({
+//   routeName: 'Profile',
+//   params: {},
+//   // navigate can have a nested navigate action that will be run inside the child router
+//   action: NavigationActions.navigate({ routeName: 'SubProfileRoute'})
+// })
+// this.props.navigation.dispatch(navigateAction)
 
 export default class Sign_in extends Component {
   constructor(){
@@ -31,6 +39,8 @@ export default class Sign_in extends Component {
   }
 
   render (){
+    console.log(Object.keys(this.props));
+    const {navigate} = this.props.navigation || {}
     return(
       <View style={styles.myView}>
         <Text style={styles.signIn}>Sign In</Text>
@@ -52,7 +62,7 @@ export default class Sign_in extends Component {
           />
         </View>
         <Button
-          onPress={()=> navigation.navigate('Sign_up')}
+          onPress={()=> navigate('SignUp')}
           title="Don't have an account? Create On"
           accessibilityLabel="Don't have an account? Create On"
         />
@@ -89,4 +99,5 @@ const styles = StyleSheet.create({
   }
 })
 
-AppRegistry.registerComponent('Sign_in', () => Capstone)
+module.exports = Sign_in
+// AppRegistry.registerComponent('Sign_in', () => Capstone)

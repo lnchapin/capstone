@@ -23,4 +23,5 @@ const styles = StyleSheet.create({
   }
 })
 
-AppRegistry.registerComponent('Header', () => Capstone)
+module.exports = Header
+// AppRegistry.registerComponent('Header', () => Capstone)

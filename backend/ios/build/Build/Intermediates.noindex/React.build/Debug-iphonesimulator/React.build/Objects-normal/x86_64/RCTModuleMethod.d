@@ -1,0 +1,28 @@
+dependencies: \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTModuleMethod.mm \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTModuleMethod.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTBridgeMethod.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTBridgeModule.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTDefines.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTNullability.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTAssert.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTBridge+Private.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTBridge.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTFrameUpdate.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTInvalidating.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTConvert.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Views/RCTAnimationType.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Views/RCTBorderStyle.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTLog.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTUtils.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Views/RCTPointerEvents.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Views/RCTTextDecorationLineType.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/Yoga.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTCxxConvert.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTManagedPointer.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Base/RCTParserUtils.h \
+  /Users/lindsay/Documents/galvanize/capstone/capstone/node_modules/react-native/React/Profiler/RCTProfile.h

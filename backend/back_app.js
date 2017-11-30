@@ -11,6 +11,14 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
 app.use("/api/v1/users", users)
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+app.use(function (req, res, next) {
+  console.error(err.stack)
+  res.status(404).send('404, route not found')
+})
 
 
 app.listen(port, function() {

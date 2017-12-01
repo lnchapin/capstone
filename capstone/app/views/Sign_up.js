@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native'
-// import {StackNavigator} from 'react-navigation'
+import {Actions} from 'react-native-router-flux'
+import Header from '../components/Header'
 
 export default class Sign_up extends Component {
   constructor(){
@@ -50,40 +51,43 @@ export default class Sign_up extends Component {
 
   render (){
     return(
-      <View style={styles.myView}>
-        <Text style={styles.signUp}>Sign Up</Text>
-        <TextInput style={styles.textInput}
-          placeholder='First Name'
-          value={this.state.fNameValue}
-          onChangeText={(value)=> this.onfNameChange(value)}
-        />
-        <TextInput style={styles.textInput}
-          placeholder='Last Name'
-          value={this.state.lNameValue}
-          onChangeText={(value)=> this.onlNameChange(value)}
-        />
-        <TextInput style={styles.textInput}
-          placeholder='Email'
-          value={this.state.emailValue}
-          onChangeText={(value)=> this.onEmailChange(value)}
-        />
-        <TextInput style={styles.textInput}
-          placeholder='Password'
-          value={this.state.passwordValue}
-          onChangeText={(value)=> this.onPasswordChange(value)}
-        />
-        <View style={styles.buttonBack}>
+      <View>
+        <Header />
+        <View style={styles.myView}>
+          <Text style={styles.signUp}>Sign Up</Text>
+          <TextInput style={styles.textInput}
+            placeholder='First Name'
+            value={this.state.fNameValue}
+            onChangeText={(value)=> this.onfNameChange(value)}
+          />
+          <TextInput style={styles.textInput}
+            placeholder='Last Name'
+            value={this.state.lNameValue}
+            onChangeText={(value)=> this.onlNameChange(value)}
+          />
+          <TextInput style={styles.textInput}
+            placeholder='Email'
+            value={this.state.emailValue}
+            onChangeText={(value)=> this.onEmailChange(value)}
+          />
+          <TextInput style={styles.textInput}
+            placeholder='Password'
+            value={this.state.passwordValue}
+            onChangeText={(value)=> this.onPasswordChange(value)}
+          />
+          <View style={styles.buttonBack}>
+            <Button
+              onPress={this.signUpSubmit}
+              title="Sign Up"
+              accessibilityLabel="Sign Up Button"
+            />
+          </View>
           <Button
-            onPress={this.signUpSubmit}
-            title="Sign Up"
-            accessibilityLabel="Sign Up Button"
+            onPress={() => Actions.Sign_in()}
+            title="Already have an account? Log in"
+            accessibilityLabel="Already have an account? Log in"
           />
         </View>
-        <Button
-          onPress={this.signUpSubmit}
-          title="Already have an account? Log in"
-          accessibilityLabel="Already have an account? Log in"
-        />
       </View>
     )
   }

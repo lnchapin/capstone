@@ -1,15 +1,9 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
-import {StackNavigator, NavigationActions} from 'react-navigation'
+import {Actions} from 'react-native-router-flux'
 import Sign_up from './Sign_up'
+import Header from '../components/Header'
 
-// const navigateAction = NavigationActions.navigate({
-//   routeName: 'Profile',
-//   params: {},
-//   // navigate can have a nested navigate action that will be run inside the child router
-//   action: NavigationActions.navigate({ routeName: 'SubProfileRoute'})
-// })
-// this.props.navigation.dispatch(navigateAction)
 
 export default class Sign_in extends Component {
   constructor(){
@@ -39,33 +33,34 @@ export default class Sign_in extends Component {
   }
 
   render (){
-    console.log(Object.keys(this.props));
-    const {navigate} = this.props.navigation || {}
     return(
-      <View style={styles.myView}>
-        <Text style={styles.signIn}>Sign In</Text>
-        <TextInput style={styles.textInput}
-          placeholder='Email'
-          value={this.state.emailValue}
-          onChangeText={(value)=> this.onEmailChange(value)}
-        />
-        <TextInput style={styles.textInput}
-          placeholder='Password'
-          value={this.state.passwordValue}
-          onChangeText={(value)=> this.onPasswordChange(value)}
-        />
-        <View style={styles.buttonBack}>
+      <View>
+        <Header />
+        <View style={styles.myView}>
+          <Text style={styles.signIn}>Sign In</Text>
+          <TextInput style={styles.textInput}
+            placeholder='Email'
+            value={this.state.emailValue}
+            onChangeText={(value)=> this.onEmailChange(value)}
+          />
+          <TextInput style={styles.textInput}
+            placeholder='Password'
+            value={this.state.passwordValue}
+            onChangeText={(value)=> this.onPasswordChange(value)}
+          />
+          <View style={styles.buttonBack}>
+            <Button
+              onPress={this.signInSubmit}
+              title="Sign In"
+              accessibilityLabel="Sign In Button"
+            />
+          </View>
           <Button
-            onPress={this.signInSubmit}
-            title="Sign In"
-            accessibilityLabel="Sign In Button"
+            onPress={() => Actions.Sign_up()}
+            title="Don't have an account? Create On"
+            accessibilityLabel="Don't have an account? Create On"
           />
         </View>
-        <Button
-          onPress={()=> navigate('SignUp')}
-          title="Don't have an account? Create On"
-          accessibilityLabel="Don't have an account? Create On"
-        />
       </View>
     )
   }

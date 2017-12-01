@@ -9,11 +9,17 @@
 	"dependencies": {
 		"react": "16.0.0",
 		"react-native": "0.50.4",
+		"react-native-router-flux": "^4.0.0-beta.24",
 		"react-navigation": "^1.0.0-beta.21"
 	},
 	"devDependencies": {
 		"babel-jest": "21.2.0",
 		"babel-preset-react-native": "4.0.0",
+		"eslint": "^4.12.1",
+		"eslint-config-airbnb": "^16.1.0",
+		"eslint-plugin-import": "^2.8.0",
+		"eslint-plugin-jsx-a11y": "^6.0.2",
+		"eslint-plugin-react": "^7.5.1",
 		"jest": "21.2.1",
 		"react-test-renderer": "16.0.0"
 	},

@@ -33,8 +33,6 @@ export default class Sign_in extends Component {
   signInSubmit = () => {
     console.log(this.state.emailValue, this.state.passwordValue);
 
-    console.log("Hi!");
-
     fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/login", {
       method: "POST",
       headers: {
@@ -47,12 +45,13 @@ export default class Sign_in extends Component {
       })
     })
     .then(response => {
-      alert(response)
       console.log(response);
-      if(response.error){
-        alert(response.error)
+      console.log(response.status);
+      if(response.status == 40){
+        alert('Email not found, please sign up')
       } else {
-        AsyncStorage.setItem('token': response.token, 'app_users_id': response.user_id)
+        AsyncStorage.setItem('token', response.token)
+        AsyncStorage.setItem('app_users_id', response.user_id)
         console.log("Async", AsyncStorage);
       }
     })
@@ -87,8 +86,8 @@ export default class Sign_in extends Component {
           </View>
           <Button
             onPress={() => Actions.Sign_up()}
-            title="Don't have an account? Create On"
-            accessibilityLabel="Don't have an account? Create On"
+            title="Don't have an account? Create One"
+            accessibilityLabel="Don't have an account? Create One"
           />
         </View>
       </View>

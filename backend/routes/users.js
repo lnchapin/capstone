@@ -20,6 +20,7 @@ router.post('/login', function(req, res, next) {
   knex('app_users').select('*').where('email', email)
   .then(user => {
     if(user.length === 0){
+      res.status(404)
       res.json({error: 'Email not found, please sign up'})
     } else {
       let hashed = user[0].password
@@ -29,8 +30,9 @@ router.post('/login', function(req, res, next) {
         let payload = user[0]
         delete payload.password
         let token = jwt.sign(JSON.stringify(payload), process.env.TOKEN_SECRET)
-        res.status(200).json({token})
+        res.json({token})
       } else {
+        res.status(401)
         res.json({error: 'Email and Password do not match, please enter correct password'})
       }
     }
@@ -57,30 +59,45 @@ router.post('/signup', function(req, res, next){
             delete payload.password
             let token = jwt.sign(JSON.stringify(payload), process.env.TOKEN_SECRET)
 
-            res.json({token: token}, {user_id: id})
+            res.json({token: token})
           })
       } else {
+        res.status(401)
         res.json({error: 'Email already in use, please log in'})
       }
     })
+})
 
+// router.put('/:id', function(req, res, next) {
+//   let user_id =  ****Async Data app_users_id****
+//   return knex('app_users').where("id", user_id).update({
+//     first_name: req.body.first_name
+//     last_name: req.body.last_name
+//     email: req.body.email
+//     password: req.body.password
+//     })
+//   .then(function(result){
+//     res.send("information successfully changed");
+//   })
+//   return
+// });
 
-    // router.delete('/:id', function(req, res, next) {
-    //   var blogid = req.params.id
-    //   return knex('blog_post').where("id", blogid).del()
-    //   .then(function(result){
-    //     res.send("blog post has been deleted");
-    //   })
-    //   return
-    // });
-    //
-    // router.get('/:id', function(req, res, next) {
-    //   var blogid = req.params.id
-    //   return knex('blog_post').where("id", blogid)
-    //   .then(function(blog_post){
-    //     res.send(blog_post);
-    //   })
-    //   return
-    // });
+// router.delete('/:id', function(req, res, next) {
+//   let user_id =  ****Async Data app_users_id****
+//   return knex('app_users').where("id", user_id).del()
+//   .then(function(result){
+//     res.send("Account has been deleted");
+//   })
+//   return
+// });
+
+router.get('/:id', function(req, res, next) {
+  var user_id = req.params.id
+  return knex('app_users').where("id", user_id)
+  .then(function(user){
+    res.send(user)
+  })
+  return
+})
 
 module.exports = router;

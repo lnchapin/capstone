@@ -6,7 +6,7 @@ var jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 router.get('/', function(req, res, next) {
-  return knex('task')
+  return knex('task_list')
   .then(function(task){
     res.send(task);
   })
@@ -14,29 +14,22 @@ router.get('/', function(req, res, next) {
 });
 
 // router.post('/create', function(req, res, next){
-//   knex('task').insert({
-//     task_name: req.body.task_name,
-//     app_users_id: ****Async Data app_users_id****,
-//     label_name: req.body.label,
-//     date: req.body.date,
-//     time: req.body.time,
-//     active: true,
+//   knex('task_list').insert({
+//     task_id: **grab id from task table all on one page**,
+//     task_item: req.body.item,
+//     done: false,
 //   })
 //   .then(function(result){
-//     res.send("task successfully posted");
+//     res.send("task item successfully posted");
 //   })
 // return
 // })
 //
 // router.put('/update/:id', function(req, res, next) {
 //   let task_id =  ****should we Async Data task_id****
-//   return knex('task').where("id", task_id).update({
-//     task_name: req.body.task_name,
-//     app_users_id: ****Async Data app_users_id****,
-//     label_name: req.body.label,
-//     date: req.body.date,
-//     time: req.body.time,
-//     active: true,
+//   return knex('task_list').where("id", task_id).update({
+//     task_item: req.body.item,
+//     done: false,
 //     })
 //   .then(function(result){
 //     res.send("task successfully edited");
@@ -46,8 +39,8 @@ router.get('/', function(req, res, next) {
 //
 // router.put('/finished/:id', function(req, res, next) {
 //   let task_id =  ****should we Async Data task_id****
-//   return knex('task').where("id", task_id).update({
-//     active: false,
+//   return knex('task_list').where("id", task_id).update({
+//     done: true,
 //     })
 //   .then(function(result){
 //     res.send("task successfully finished");
@@ -55,27 +48,27 @@ router.get('/', function(req, res, next) {
 //   return
 // });
 //
-// // router.delete('/:id', function(req, res, next) {
-// //   let task_id =  ****should we Async Data task_id****
-// //   return knex('task').where("id", task_id).del()
-// //   .then(function(result){
-// //     res.send("Task has been deleted");
-// //   })
-// //   return
-// // });
+// router.delete('/:id', function(req, res, next) {
+//   let task_id =  ****should we Async Data task_id****
+//   return knex('task_list').where("id", task_id).del()
+//   .then(function(result){
+//     res.send("Task has been deleted");
+//   })
+//   return
+// });
 //
 router.get('/:id', function(req, res, next) {
   var task_id = req.params.id
-  return knex('task').where("id", task_id)
+  return knex('task_list').where("id", task_id)
   .then(function(task){
     res.send(task)
   })
   return
 })
 
-router.get('/user/:id', function(req, res, next) {
-  var app_users_id = req.params.id
-  return knex('task').where("app_users_id", app_users_id)
+router.get('/task/:id', function(req, res, next) {
+  var task_id = req.params.id
+  return knex('task_list').where("task_id", task_id)
   .then(function(task){
     res.send(task)
   })

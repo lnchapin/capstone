@@ -16,7 +16,6 @@ export default class Pomodoro extends Component {
   }
 
   handlePeriod = () => {
-      console.log('state on 19', this.state);
     if(this.state.timerRunning){
       this.setState({timerRunning: false})
       return window.clearInterval(this.interval)

@@ -47,6 +47,36 @@ export default class Sign_up extends Component {
     console.log(this.state.lNameValue);
     console.log(this.state.emailValue);
     console.log(this.state.passwordValue);
+    fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/signup", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        first_name: this.state.fNameValue,
+        last_name: this.state.lNameValue,
+        email: this.state.emailValue,
+        password: this.state.passwordValue
+      })
+    })
+    .then(response => {
+      console.log(response);
+      console.log(response.status);
+      if(response.status == 404){
+        alert('Email not found, please sign up')
+      } else if (response.status == 401) {
+        alert('Email already in use, please log in')
+      } else {
+        AsyncStorage.setItem('token', response.token)
+        AsyncStorage.setItem('app_users_id', response.user_id)
+        console.log("Async", AsyncStorage);
+      }
+    })
+    .catch(error => {
+      console.log("failure");
+      console.error(error);
+    })
   }
 
   render (){

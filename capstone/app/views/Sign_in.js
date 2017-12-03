@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
+import {Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native';
 import {Actions} from 'react-native-router-flux'
 import Sign_up from './Sign_up'
 import Header from '../components/Header'
@@ -13,6 +13,8 @@ export default class Sign_in extends Component {
       passwordValue:''
     }
   }
+
+
 
   onEmailChange = (value) =>{
     this.setState({
@@ -30,6 +32,34 @@ export default class Sign_in extends Component {
 
   signInSubmit = () => {
     console.log(this.state.emailValue, this.state.passwordValue);
+
+    console.log("Hi!");
+
+    fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/login", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: this.state.emailValue,
+        password: this.state.passwordValue
+      })
+    })
+    .then(response => {
+      alert(response)
+      console.log(response);
+      if(response.error){
+        alert(response.error)
+      } else {
+        AsyncStorage.setItem('token': response.token, 'app_users_id': response.user_id)
+        console.log("Async", AsyncStorage);
+      }
+    })
+    .catch(error => {
+      console.log("failure");
+      console.error(error);
+    })
   }
 
   render (){
@@ -95,4 +125,3 @@ const styles = StyleSheet.create({
 })
 
 module.exports = Sign_in
-// AppRegistry.registerComponent('Sign_in', () => Capstone)

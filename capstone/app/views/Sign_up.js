@@ -122,5 +122,3 @@ const styles = StyleSheet.create({
 })
 
 module.exports = Sign_up
-
-// AppRegistry.registerComponent('Sign_up', ({ navigation }) => Capstone)

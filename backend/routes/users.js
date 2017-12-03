@@ -29,7 +29,7 @@ router.post('/login', function(req, res, next) {
         let payload = user[0]
         delete payload.password
         let token = jwt.sign(JSON.stringify(payload), process.env.TOKEN_SECRET)
-        res.json({token})
+        res.status(200).json({token})
       } else {
         res.json({error: 'Email and Password do not match, please enter correct password'})
       }
@@ -57,12 +57,30 @@ router.post('/signup', function(req, res, next){
             delete payload.password
             let token = jwt.sign(JSON.stringify(payload), process.env.TOKEN_SECRET)
 
-            res.json({token: token})
+            res.json({token: token}, {user_id: id})
           })
       } else {
         res.json({error: 'Email already in use, please log in'})
       }
     })
-})
+
+
+    // router.delete('/:id', function(req, res, next) {
+    //   var blogid = req.params.id
+    //   return knex('blog_post').where("id", blogid).del()
+    //   .then(function(result){
+    //     res.send("blog post has been deleted");
+    //   })
+    //   return
+    // });
+    //
+    // router.get('/:id', function(req, res, next) {
+    //   var blogid = req.params.id
+    //   return knex('blog_post').where("id", blogid)
+    //   .then(function(blog_post){
+    //     res.send(blog_post);
+    //   })
+    //   return
+    // });
 
 module.exports = router;

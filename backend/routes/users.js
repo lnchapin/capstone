@@ -73,12 +73,12 @@ router.post('/signup', function(req, res, next){
 router.put('/:id', function(req, res, next) {
   let user_id =  req.body.id
   return knex('app_users').where("id", user_id).update({
-    first_name: req.body.first_name
-    last_name: req.body.last_name
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
     email: req.body.email
     })
   .then(function(result){
-    res.send("information successfully changed");
+    res.json({message: 'information successfully changed'});
   })
   return
 });

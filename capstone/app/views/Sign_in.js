@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native';
 import {Actions} from 'react-native-router-flux'
 import Sign_up from './Sign_up'
+import Pomodoro from './Pomodoro'
 import Header from '../components/Header'
 
 
@@ -52,9 +53,9 @@ export default class Sign_in extends Component {
       } else {
         console.log(response);
         AsyncStorage.setItem('data', JSON.stringify(response))
-        AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
+        AsyncStorage.getItem('data').then((res)=>console.log("getItem", res))
+        Actions.Pomodoro()
       }
-
     })
     .catch(error => {
       console.log("failure");
@@ -75,6 +76,7 @@ export default class Sign_in extends Component {
           />
           <TextInput style={styles.textInput}
             placeholder='Password'
+            // secureTextEntry={true}
             value={this.state.passwordValue}
             onChangeText={(value)=> this.onPasswordChange(value)}
           />

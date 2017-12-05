@@ -15,21 +15,26 @@ export default class Settings extends Component {
   }
 
   componentDidMount(){
+    console.log("in component did mount");
     AsyncStorage.getItem('data')
-      .then((res)=>JSON.parse(res))
+      .then(res =>
+        JSON.parse(res)
+      )
       .then((user)=> {
-        this.setState({userId: user.user_id, user})
+        this.setState({userId: user.user_id})
+        console.log("user.user_id", user.user_id)
+        console.log(this.state.userId)
       }
     )
 
 
   }
-
   updateUser = () => {
-    fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/${this.state.userId}", {
+    console.log("state at update", this.state);
+    fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/`${this.state.userId}`", {
       method: "PUT",
       headers: {
-        // Accept: "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -45,7 +50,8 @@ export default class Settings extends Component {
         alert(response.error)
       } else {
         console.log(response);
-        AsyncStorage.setItem('data', JSON.stringify(response))
+        alert(response.message)
+        // AsyncStorage.setItem('data', JSON.stringify(response))
         AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
       }
 
@@ -60,6 +66,7 @@ export default class Settings extends Component {
     // AsyncStorage.removeItem('data');
       AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
       console.log(this.state.userId);
+      console.log("attempt at id from url", `${this.state.userId}`)
   }
 
 

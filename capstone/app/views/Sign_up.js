@@ -13,38 +13,6 @@ export default class Sign_up extends Component {
       lNameValue: ''
     }
   }
-  updateUser = () => {
-    console.log(this.state.emailValue, this.state.passwordValue);
-
-    fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/${this.state.userId}", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: this.state.emailValue,
-        password: this.state.passwordValue
-      })
-    })
-    .then(res => res.json())
-    .then(response => {
-      if(response.error){
-        alert(response.error)
-      } else {
-        console.log(response);
-        AsyncStorage.setItem('data', JSON.stringify(response))
-        AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
-      }
-
-    })
-    .catch(error => {
-      console.log("failure");
-      console.error(error);
-    })
-  }
-
-
 
   onfNameChange = (value) => {
     this.setState({
@@ -111,7 +79,7 @@ export default class Sign_up extends Component {
     })
   }
 
-  render (){
+  render () {
     return(
       <View>
         <Header />
@@ -134,6 +102,7 @@ export default class Sign_up extends Component {
           />
           <TextInput style={styles.textInput}
             placeholder='Password'
+              // secureTextEntry={true}
             value={this.state.passwordValue}
             onChangeText={(value)=> this.onPasswordChange(value)}
           />

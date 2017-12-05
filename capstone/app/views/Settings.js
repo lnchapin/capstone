@@ -1,30 +1,42 @@
 import React, {Component} from 'react'
-import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native'
+import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 
-export default class Sign_up extends Component {
+export default class Settings extends Component {
   constructor(){
     super()
     this.state = {
       emailValue:'',
-      passwordValue:'',
       fNameValue: '',
-      lNameValue: ''
+      lNameValue: '',
+      userId: -1
     }
   }
-  updateUser = () => {
-    console.log(this.state.emailValue, this.state.passwordValue);
 
+  componentDidMount(){
+    AsyncStorage.getItem('data')
+      .then((res)=>JSON.parse(res))
+      .then((user)=> {
+        this.setState({userId: user.user_id, user})
+      }
+    )
+
+
+  }
+
+  updateUser = () => {
     fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/${this.state.userId}", {
-      method: "POST",
+      method: "PUT",
       headers: {
-        Accept: "application/json",
+        // Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        email: this.state.emailValue,
-        password: this.state.passwordValue
+        id: this.state.userId,
+        first_name: this.state.fNameValue,
+        last_name: this.state.lNameValue,
+        email: this.state.emailValue
       })
     })
     .then(res => res.json())
@@ -42,6 +54,12 @@ export default class Sign_up extends Component {
       console.log("failure");
       console.error(error);
     })
+  }
+
+  logoutUser = () => {
+    // AsyncStorage.removeItem('data');
+      AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
+      console.log(this.state.userId);
   }
 
 
@@ -67,56 +85,12 @@ export default class Sign_up extends Component {
     console.log(this.state.emailValue)
   }
 
-  onPasswordChange = (value) => {
-    this.setState({
-      passwordValue: value
-    })
-    console.log(this.state.passwordValue);
-  }
-
-  signUpSubmit = () => {
-    console.log(this.state.fNameValue);
-    console.log(this.state.lNameValue);
-    console.log(this.state.emailValue);
-    console.log(this.state.passwordValue);
-    fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/signup", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        first_name: this.state.fNameValue,
-        last_name: this.state.lNameValue,
-        email: this.state.emailValue,
-        password: this.state.passwordValue
-      })
-    })
-    .then(response => {
-      console.log(response);
-      console.log(response.status);
-      if(response.status == 404){
-        alert('Email not found, please sign up')
-      } else if (response.status == 401) {
-        alert('Email already in use, please log in')
-      } else {
-        AsyncStorage.setItem('token', response.token)
-        AsyncStorage.setItem('app_users_id', response.user_id)
-        console.log("Async", AsyncStorage);
-      }
-    })
-    .catch(error => {
-      console.log("failure");
-      console.error(error);
-    })
-  }
-
   render (){
     return(
       <View>
         <Header />
         <View style={styles.myView}>
-          <Text style={styles.signUp}>Sign Up</Text>
+          <Text style={styles.signUp}>Update</Text>
           <TextInput style={styles.textInput}
             placeholder='First Name'
             value={this.state.fNameValue}
@@ -132,23 +106,20 @@ export default class Sign_up extends Component {
             value={this.state.emailValue}
             onChangeText={(value)=> this.onEmailChange(value)}
           />
-          <TextInput style={styles.textInput}
-            placeholder='Password'
-            value={this.state.passwordValue}
-            onChangeText={(value)=> this.onPasswordChange(value)}
-          />
           <View style={styles.buttonBack}>
             <Button
-              onPress={this.signUpSubmit}
-              title="Sign Up"
-              accessibilityLabel="Sign Up Button"
+              onPress={this.updateUser}
+              title="Update"
+              accessibilityLabel="Update Button"
             />
           </View>
-          <Button
-            onPress={() => Actions.Sign_in()}
-            title="Already have an account? Log in"
-            accessibilityLabel="Already have an account? Log in"
-          />
+          <View style={styles.buttonBack}>
+            <Button
+              onPress={this.logoutUser}
+              title="Log Out"
+              accessibilityLabel="Log Out Button"
+            />
+          </View>
         </View>
       </View>
     )
@@ -183,4 +154,4 @@ const styles = StyleSheet.create({
   }
 })
 
-module.exports = Sign_up
+module.exports = Settings

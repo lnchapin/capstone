@@ -8,6 +8,7 @@ var users = require('./routes/users')
 var tasks = require('./routes/tasks')
 var tasks_list = require('./routes/tasks_list')
 var label = require('./routes/label')
+var tasks_permission = require('./routes/task_permission')
 var port = process.env.PORT || 3000
 
 app.use(cors())
@@ -17,6 +18,7 @@ app.use("/api/v1/users", users)
 app.use("/api/v1/tasks", tasks)
 app.use("/api/v1/tasks_list", tasks_list)
 app.use("/api/v1/label", label)
+app.use("/api/v1/tasks_permission", tasks_permission)
 app.use(function (err, req, res, next) {
   console.error(err.stack)
   res.status(500).send('Something broke!')

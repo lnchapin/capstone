@@ -52,4 +52,13 @@ router.get('/:id', function(req, res, next) {
   return
 })
 
+router.get('/users/:id', function(req, res, next) {
+  var app_users_id = req.params.id
+  return knex('label').where("app_users_id", app_users_id)
+  .then(function(label){
+    res.send(label)
+  })
+  return
+})
+
 module.exports = router;

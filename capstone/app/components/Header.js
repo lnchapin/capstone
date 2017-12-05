@@ -5,7 +5,7 @@ export default class Header extends Component {
   render (){
     return(
       <View style={styles.header}>
-        <Text style={styles.name}>Solanum</Text>
+        <Text style={styles.name}>Pomo</Text>
       </View>
     )
   }

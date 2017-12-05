@@ -30,6 +30,7 @@ export default class Sign_in extends Component {
     console.log(this.state.passwordValue);
   }
 
+
   signInSubmit = () => {
     console.log(this.state.emailValue, this.state.passwordValue);
 
@@ -44,16 +45,16 @@ export default class Sign_in extends Component {
         password: this.state.passwordValue
       })
     })
+    .then(res => res.json())
     .then(response => {
-      console.log(response);
-      console.log(response.status);
-      if(response.status == 40){
-        alert('Email not found, please sign up')
+      if(response.error){
+        alert(response.error)
       } else {
-        AsyncStorage.setItem('token', response.token)
-        AsyncStorage.setItem('app_users_id', response.user_id)
-        console.log("Async", AsyncStorage);
+        console.log(response);
+        AsyncStorage.setItem('data', JSON.stringify(response))
+        AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
       }
+
     })
     .catch(error => {
       console.log("failure");

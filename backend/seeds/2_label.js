@@ -7,14 +7,27 @@ exports.seed = function(knex, Promise) {
       return knex('label').insert([
         {
           id: 1,
+          app_users_id: 1,
           label: 'family',
         },
         {
           id: 2,
+          app_users_id: 1,
           label: 'spouse',
         },
         {
           id: 3,
+          app_users_id: 2,
+          label: 'family',
+        },
+        {
+          id: 4,
+          app_users_id: 2,
+          label: 'spouse',
+        },
+        {
+          id: 5,
+          app_users_id: 3,
           label: 'sister',
         }
       ]);

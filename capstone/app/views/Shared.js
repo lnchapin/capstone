@@ -16,19 +16,16 @@ export default class Shared extends Component {
     console.log("in component did mount");
     AsyncStorage.getItem('data').then(res => JSON.parse(res)).then((user) => {
       this.setState({userId: user.user_id})
-      console.log("user.user_id", user.user_id)
-      console.log(this.state.userId)
     }).then(this.getSharedUsers)
   }
 
   getSharedUsers = () => {
-    console.log("state at update", this.state);
     fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission/permittedToView/' + `${this.state.userId}`).then(res => res.json()).then(response => {
-      console.log(response);
+      // console.log(response);
       this.setState({
         task_permission: response
       })
-      console.log("state 31", this.state);
+      // console.log("state 31", this.state);
     }).catch(error => {
       console.log("failure");
       console.error(error);

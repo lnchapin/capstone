@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native';
 import {Actions} from 'react-native-router-flux'
 import Sign_up from './Sign_up'
-import Pomodoro from './Pomodoro'
+import Home from './Home'
 import Header from '../components/Header'
 
 
@@ -54,7 +54,7 @@ export default class Sign_in extends Component {
         console.log(response);
         AsyncStorage.setItem('data', JSON.stringify(response))
         AsyncStorage.getItem('data').then((res)=>console.log("getItem", res))
-        Actions.Pomodoro()
+        Actions.Home()
       }
     })
     .catch(error => {

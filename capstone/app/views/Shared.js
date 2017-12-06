@@ -3,12 +3,12 @@ import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncS
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 
-export default class Home extends Component {
+export default class Shared extends Component {
   constructor() {
     super()
     this.state = {
       userId: -1,
-      tasks: []
+      task_permission: []
     }
   }
 
@@ -18,15 +18,15 @@ export default class Home extends Component {
       this.setState({userId: user.user_id})
       console.log("user.user_id", user.user_id)
       console.log(this.state.userId)
-    }).then(this.getUserTasks)
+    }).then(this.getSharedUsers)
   }
 
-  getUserTasks = () => {
+  getSharedUsers = () => {
     console.log("state at update", this.state);
-    fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks/user/' + `${this.state.userId}`).then(res => res.json()).then(response => {
+    fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission/permittedToView/' + `${this.state.userId}`).then(res => res.json()).then(response => {
       console.log(response);
       this.setState({
-        tasks: response
+        task_permission: response
       })
       console.log("state 31", this.state);
     }).catch(error => {
@@ -35,13 +35,19 @@ export default class Home extends Component {
     })
   }
 
-  displayUserTasks = () => {
-    return this.state.tasks.map(task =>
-      <View key={task.id} style={styles.taskBack}>
-        <Text>{task.date}</Text>
-        <Text>{task.task_name}</Text>
+  displayUsersYouCanSee = () => {
+    return this.state.task_permission.map(task_permission =>
+      <View key={task_permission.id} style={styles.taskBack}>
+        <Text>{task_permission.first_name + ' ' + task_permission.last_name}</Text>
       </View>
     )
+  }
+
+  asyncCheck = () => {
+    AsyncStorage.getItem('data').then((res) => console.log("getItem", res));
+    console.log(this.state.userId);
+    console.log("attempt at id from url", `${this.state.userId}`)
+    console.log('https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission/permittedToView/' + `${this.state.userId}`);
   }
 
   render() {
@@ -52,7 +58,7 @@ export default class Home extends Component {
       <View style={styles.myView}>
         <Text style={styles.signUp}>Tasks</Text>
         <View>
-          {this.displayUserTasks()}
+          {this.displayUsersYouCanSee()}
         </View>
       </View>
     </View>)
@@ -86,4 +92,4 @@ const styles = StyleSheet.create({
   }
 })
 
-module.exports = Home
+module.exports = Shared

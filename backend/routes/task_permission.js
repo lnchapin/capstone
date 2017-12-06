@@ -54,9 +54,35 @@ router.get('/:id', function(req, res, next) {
   return
 })
 
-router.get('/user/:id', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
+  var task_permission_id = req.params.id
+  return knex('task_permission').where("id", task_permission_id)
+  .then(function(task_permission){
+    res.send(task_permission)
+  })
+  return
+})
+
+router.get('/permittedToView/:id', function(req, res, next) {
   var app_users_id = req.params.id
-  return knex('task_permission').where("app_users_id", app_users_id)
+  return knex('app_users')
+    .join('task_permission', 'task_permission.app_users_id', 'app_users.id')
+    .where("task_permission.user_id_permitted", app_users_id)
+    .then(function(task_permission){
+      res.send(task_permission)
+  })
+  return
+})
+
+router.get('/userPermitted/:id', function(req, res, next) {
+  var app_users_id = req.params.id
+
+  return knex('app_users')
+  .join('task_permission', 'task_permission.user_id_permitted', 'app_users.id')
+  .where("task_permission.app_users_id", app_users_id)
+  .then(function(task_permission){
+    res.send(task_permission)
+  })
   .then(function(task_permission){
     res.send(task_permission)
   })

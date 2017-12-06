@@ -60,6 +60,7 @@ export default class Sign_up extends Component {
         password: this.state.passwordValue
       })
     })
+    .then(res => res.json())
     .then(response => {
       console.log(response);
       console.log(response.status);
@@ -68,9 +69,9 @@ export default class Sign_up extends Component {
       } else if (response.status == 401) {
         alert('Email already in use, please log in')
       } else {
-        AsyncStorage.setItem('token', response.token)
-        AsyncStorage.setItem('app_users_id', response.user_id)
-        console.log("Async", AsyncStorage);
+        AsyncStorage.setItem('data', JSON.stringify(response))
+        AsyncStorage.getItem('data').then((res)=>console.log("getItem", res))
+        Actions.Home()
       }
     })
     .catch(error => {

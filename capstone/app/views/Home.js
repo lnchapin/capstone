@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native'
+import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, Image} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 
@@ -35,7 +35,6 @@ export default class Home extends Component {
   displayUserTasks = () => {
     console.log(this.state);
     return this.state.tasks
-    // .filter()
     .map(task =>
       <View key={task.id} style={styles.taskBack}>
         <Button
@@ -68,7 +67,7 @@ export default class Home extends Component {
   getTaskItems = (taskId) => this.state.tasks_list
   .filter(task_item => task_item.task_id === taskId)
   .map(task_item =>
-      <View key={task_item.id} style={styles.taskBack}>
+      <View key={task_item.id}>
         <Text>{task_item.task_item}</Text>
       </View>
     )
@@ -84,6 +83,7 @@ export default class Home extends Component {
         <View>
           {this.displayUserTasks()}
         </View>
+
       </View>
     </View>)
   }

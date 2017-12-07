@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, Image} from 'react-native'
+import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, Image, TouchableOpacity} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
+import Dot from '../images/primitive-dot.png'
 
 export default class Home extends Component {
   constructor() {
@@ -44,13 +45,27 @@ export default class Home extends Component {
         />
         {this.getTaskItems(task.id)}
         <Text>Due Date: {task.date}</Text>
-
+        <View style={styles.container}>
+          <Button
+            style={styles.button}
+            onPress={() => console.log("hi")}
+            title='Edit'
+            accessibilityLabel="Edit Task Button"
+          />
+          <Button
+            style={styles.button}
+            onPress={() => console.log("hi")}
+            title='Finish'
+            accessibilityLabel="Finish Task Button"
+          />
+        </View>
       </View>
     )
+
   }
 
   showTaskBreakdown = (val) => {
-    console.log(val);
+    console.log("showTaskBreakdown val", val);
     fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/task/' + val)
     .then(res => res.json())
     .then(response => {
@@ -68,22 +83,65 @@ export default class Home extends Component {
   .filter(task_item => task_item.task_id === taskId)
   .map(task_item =>
       <View key={task_item.id}>
-        <Text>{task_item.task_item}</Text>
+        <Text style={(task_item.done ? styles.Done : null)}>
+          <TouchableOpacity
+            onPress={() => this.finishTask(task_item)}
+            style={styles.toDot}>
+            <Image style={styles.Dot} source={require('../images/primitive-dot.png')} />
+          </TouchableOpacity> {task_item.task_item} </Text>
       </View>
     )
 
+    finishTask = ({task_id, id, done = false}) => {
+      console.log("task_id in finish", task_id);
+      console.log('state in finish', this.state);
+      fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/finished/' + id, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          id: id,
+          done: !done
+        })
+      })
+      .then(res => res.text())
+      .then(response => {
+        console.log(JSON.parse(response));
+        if(response.error){
+          alert(response.error)
+        } else {
+          console.log(response);
+        }
+        console.log("finish task id", id);
+        return this.showTaskBreakdown(id)
+    })
+    .catch(function(error) {
+      console.log("Put error", error.message);
+      throw error;
+    });
+  }
+
+    editTask = () => {
+      console.log('edit');
+    }
 
 
   render() {
     return (
       <View>
       <Header/>
+      <Button
+        style={styles.button}
+        onPress={()=> Actions.AddTask()}
+        title='Add Task'
+        accessibilityLabel="Add Task Button"/>
       <View style={styles.myView}>
         <Text style={styles.signUp}>Tasks</Text>
         <View>
           {this.displayUserTasks()}
         </View>
-
       </View>
     </View>)
   }
@@ -95,25 +153,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5
   },
-  signUp: {
-    fontWeight: '700',
-    fontSize: 24
-  },
-  textInput: {
-    fontSize: 20,
-    width: 250,
-    padding: 5,
-    margin: 5,
-    borderRadius: 10,
-    backgroundColor: '#e1dede'
-  },
   taskBack: {
     width: 200,
     padding: 5,
     margin: 5,
     borderRadius: 10,
     backgroundColor: '#e1dede'
-  }
+  },
+  toDot: {
+    width: 15,
+    height: 15
+  },
+  Dot: {
+    width: 20,
+    height: 20
+  },
+  Done: {
+    textDecorationLine: 'line-through'
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: 150,
+    marginTop: 5,
+    marginBottom: 25
+},
+  button: {
+    borderRadius: 10,
+    width: '40%',
+    height: 40
+}
 })
 
 module.exports = Home

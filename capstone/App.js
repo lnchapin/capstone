@@ -10,6 +10,7 @@ import Settings from './app/views/Settings'
 import Home from './app/views/Home'
 import Groups from './app/views/Groups'
 import Shared from './app/views/Shared'
+import AddTask from './app/views/AddTask'
 
 export default class App extends React.Component {
   render() {
@@ -21,6 +22,7 @@ export default class App extends React.Component {
           <Scene key="inApp" tabs={true} hideNavBar={true}>
             <Scene key="Home" hideNavBar={true} component={Home} initial={true} />
             <Scene key="Pomodoro" hideNavBar={true} component={Pomodoro} initial={false} />
+            <Scene key="AddTask" hideNavBar={true} component={AddTask} initial={false} />
             <Scene key="Shared" hideNavBar={true} component={Shared} initial={false} />
             <Scene key="Groups" hideNavBar={true} component={Groups} initial={false} />
             <Scene key="Settings" hideNavBar={true} component={Settings} initial={false} />

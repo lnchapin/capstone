@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native'
+import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, Image, TouchableOpacity} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 
@@ -9,7 +9,7 @@ export default class AddTask extends Component {
     this.state = {
       task_name:'',
       task_item: [],
-      label_id: '',
+      label_id: [],
       date: '',
       time: '',
       active: true,
@@ -66,6 +66,25 @@ export default class AddTask extends Component {
       console.log("failure");
       console.error(error);
     })
+  }
+
+  displayUsersYouPermitted = () => {
+    return this.state.task_permission.map(task_permission =>
+      <View key={task_permission.id} style={styles.taskBack}>
+        <Text>
+          <TouchableOpacity
+          onPress={() => this.addPermittedUser(task_permission.user_id_permitted)}
+          style={styles.toDot}>
+          <Image style={styles.Dot} source={require('../images/primitive-dot.png')} />
+        </TouchableOpacity>
+        {task_permission.first_name + ' ' + task_permission.last_name}</Text>
+      </View>
+    )
+  }
+
+  addPermittedUser = (id) =>{
+    this.state.label_id.push(id)
+    console.log(this.state.label_id);
   }
 
   signUpSubmit = () => {
@@ -127,6 +146,8 @@ export default class AddTask extends Component {
             value={this.state.time}
             onChangeText={(value)=> this.timeChange(value)}
           />
+          <Text>Who Do You Want to Share This With?</Text>
+          {this.displayUsersYouPermitted()}
           <View style={styles.buttonBack}>
             <Button
               onPress={this.signUpSubmit}
@@ -165,6 +186,14 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     backgroundColor: '#e1dede'
+  },
+  toDot: {
+    width: 15,
+    height: 15
+  },
+  Dot: {
+    width: 20,
+    height: 20
   }
 })
 

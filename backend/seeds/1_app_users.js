@@ -26,5 +26,8 @@ exports.seed = function(knex, Promise) {
           password: '$2a$13$CiRpEgaSnbGd.zCscx99cuZFs3jSlQwkqEO140x9veCaP3zZ6fZlm'
         }
       ]);
-    });
+    })
+    .then(function () {
+      return knex.raw('alter sequence app_users_id_seq restart with 4')
+    })
 };

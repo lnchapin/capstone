@@ -8,7 +8,8 @@ export default class Groups extends Component {
     super()
     this.state = {
       userId: -1,
-      task_permission: []
+      task_permission: [],
+      email:''
     }
   }
 
@@ -35,14 +36,24 @@ export default class Groups extends Component {
     })
   }
 
+  onEmailChange = (value) =>{
+    this.setState({
+      email: value
+    })
+  }
+
+  addUserShared = (email) => {
+    console.log(email);
+  }
+
   displayUsersYouPermitted = () => {
     return this.state.task_permission.map(task_permission =>
       <View key={task_permission.id} style={styles.taskBack}>
         <Text>{task_permission.first_name + ' ' + task_permission.last_name}</Text>
         <Button
           onPress={() => this.removePermission(task_permission.id)}
-          title="Delete"
-          accessibilityLabel="Delete Button"
+          title="Add"
+          accessibilityLabel="Add a User to Share with Button"
         />
       </View>
     )
@@ -68,16 +79,16 @@ export default class Groups extends Component {
         alert(response.error)
       } else {
         console.log(response);
-        this.getPermitted
         alert(response.message)
       }
-
-    })
+    }).then(this.getPermitted)
     .catch(function(error) {
       console.log("Delete error", error.message);
       throw error;
     });
   }
+
+
 
   render() {
 
@@ -85,9 +96,22 @@ export default class Groups extends Component {
       <View>
       <Header/>
       <View style={styles.myView}>
-        <Text style={styles.signUp}>Tasks</Text>
+        <Text style={styles.signUp}>People You Share With</Text>
         <View>
           {this.displayUsersYouPermitted()}
+        </View>
+        <View>
+          <Text>Add Some On To Share With</Text>
+          <TextInput style={styles.textInput}
+            placeholder='Email'
+            value={this.state.email}
+            onChangeText={(value)=> this.onEmailChange(value)}
+          />
+          <Button
+            onPress={() => this.addUserShared(this.state.email)}
+            title="Delete"
+            accessibilityLabel="Delete Button"
+          />
         </View>
       </View>
     </View>)

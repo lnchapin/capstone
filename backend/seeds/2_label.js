@@ -27,9 +27,12 @@ exports.seed = function(knex, Promise) {
         },
         {
           id: 5,
-          app_users_id: 3,
-          label: 'sister',
+          app_users_id: 1,
+          label: 'spouse',
         }
       ]);
-    });
+    })
+    .then(function () {
+      return knex.raw('alter sequence label_id_seq restart with 6')
+    })
 };

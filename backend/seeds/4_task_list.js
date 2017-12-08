@@ -42,5 +42,8 @@ exports.seed = function(knex, Promise) {
           done: false,
         },
       ]);
-    });
+    })
+    .then(function () {
+      return knex.raw('alter sequence task_list_id_seq restart with 7')
+    })
 };

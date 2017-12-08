@@ -130,7 +130,7 @@ export default class AddTask extends Component {
       <View>
         <Header />
         <View style={styles.myView}>
-          <Text style={styles.signUp}>Sign Up</Text>
+          <Text style={styles.signUp}>Add Task</Text>
           <TextInput style={styles.textInput}
             placeholder='Task Name'
             value={this.state.task_name}
@@ -143,6 +143,31 @@ export default class AddTask extends Component {
           />
           <TextInput style={styles.textInput}
             placeholder='Time'
+            value={this.state.time}
+            onChangeText={(value)=> this.timeChange(value)}
+          />
+          <TextInput style={styles.textInput}
+            placeholder='Steps One'
+            value={this.state.time}
+            onChangeText={(value)=> this.timeChange(value)}
+          />
+          <TextInput style={styles.textInput}
+            placeholder='Steps Two'
+            value={this.state.time}
+            onChangeText={(value)=> this.timeChange(value)}
+          />
+          <TextInput style={styles.textInput}
+            placeholder='Steps Three'
+            value={this.state.time}
+            onChangeText={(value)=> this.timeChange(value)}
+          />
+          <TextInput style={styles.textInput}
+            placeholder='Steps Four'
+            value={this.state.time}
+            onChangeText={(value)=> this.timeChange(value)}
+          />
+          <TextInput style={styles.textInput}
+            placeholder='Steps Five'
             value={this.state.time}
             onChangeText={(value)=> this.timeChange(value)}
           />
@@ -166,7 +191,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems: 'center',
     padding: 5,
-    marginTop: 150,
+    marginTop: 10,
   },
   signUp: {
     fontWeight: '700',
@@ -181,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e1dede'
   },
   buttonBack: {
-    width: 100,
+    width: 200,
     padding: 5,
     margin: 5,
     borderRadius: 10,

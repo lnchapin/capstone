@@ -35,16 +35,16 @@ router.get('/', function(req, res, next) {
 //   })
 //   return
 // });
-//
-// router.delete('/:id', function(req, res, next) {
-//   let user_id_permitted =  ****should we Async Data this data****
-//   return knex('task_permission').where("id", user_id_permitted).del()
-//   .then(function(result){
-//     res.send("User no longer has access");
-//   })
-//   return
-// });
-//
+
+router.delete('/:id', function(req, res, next) {
+  let id_permitted =  req.body.id
+  return knex('task_permission').where("id", id_permitted).del()
+  .then(function(result){
+    res.json({message: "User no longer has access"});
+  })
+  return
+});
+
 router.get('/:id', function(req, res, next) {
   var task_permission_id = req.params.id
   return knex('task_permission').where("id", task_permission_id)

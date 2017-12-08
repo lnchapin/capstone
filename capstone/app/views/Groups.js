@@ -39,15 +39,44 @@ export default class Groups extends Component {
     return this.state.task_permission.map(task_permission =>
       <View key={task_permission.id} style={styles.taskBack}>
         <Text>{task_permission.first_name + ' ' + task_permission.last_name}</Text>
+        <Button
+          onPress={() => this.removePermission(task_permission.id)}
+          title="Delete"
+          accessibilityLabel="Delete Button"
+        />
       </View>
     )
   }
 
-  asyncCheck = () => {
-    AsyncStorage.getItem('data').then((res) => console.log("getItem", res));
-    console.log(this.state.userId);
-    console.log("attempt at id from url", `${this.state.userId}`)
-    console.log('https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission/userPermitted/' + `${this.state.userId}`);
+
+
+  removePermission = (id) => {
+    console.log("https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission"+ id)
+    fetch("https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission/"+ id, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: id
+      })
+    })
+    .then(res => res.json())
+    .then(response => {
+      if(response.error){
+        alert(response.error)
+      } else {
+        console.log(response);
+        this.getPermitted
+        alert(response.message)
+      }
+
+    })
+    .catch(function(error) {
+      console.log("Delete error", error.message);
+      throw error;
+    });
   }
 
   render() {
@@ -89,7 +118,12 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     backgroundColor: '#e1dede'
+  },
+  toDot: {
+    width: 50,
+    height: 50
   }
+
 })
 
 module.exports = Groups

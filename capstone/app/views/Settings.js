@@ -64,9 +64,9 @@ export default class Settings extends Component {
 
   logoutUser = () => {
     // AsyncStorage.removeItem('data');
-      AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
-      console.log(this.state.userId);
-      console.log("attempt at id from url", `${this.state.userId}`)
+    AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
+    console.log(this.state.userId);
+    console.log("attempt at id from url", `${this.state.userId}`)
   }
 
 

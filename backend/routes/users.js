@@ -105,7 +105,7 @@ router.get('/email/:email', function(req, res, next) {
   var user_email = req.params.email
   return knex('app_users').where("email", user_email)
   .then(function(user){
-    res.send(user)
+    res.json({user: user})
   })
   return
 })

@@ -21,11 +21,11 @@ app.use("/api/v1/label", label)
 app.use("/api/v1/tasks_permission", tasks_permission)
 app.use(function (err, req, res, next) {
   console.error(err.stack)
-  res.status(500).send('Something broke!')
+  res.status(500).json({message: 'Something broke!'})
 })
 app.use(function (req, res, next) {
   // console.error(err.stack)
-  res.status(404).send('404, route not found')
+  res.status(404).json({message: '404, route not found'})
 })
 
 

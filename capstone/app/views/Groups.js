@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native'
+import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, Alert} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 
@@ -9,7 +9,8 @@ export default class Groups extends Component {
     this.state = {
       userId: -1,
       task_permission: [],
-      email:''
+      email:'',
+      addedUserId: -1
     }
   }
 
@@ -43,8 +44,52 @@ export default class Groups extends Component {
   }
 
   addUserShared = (email) => {
-    console.log(email);
-  }
+    fetch('https://fast-depths-36909.herokuapp.com/api/v1/users/email/' + email)
+    .then(res => res.json())
+    .then(response => {
+      console.log(response);
+      if (response.user.length < 1) {
+        console.log("no such user");
+        alert("We don't have that user in our app, invite them to sign up")
+        // throw error
+        // this doesn't work.... Uppercase E also doesn't work 
+      } else {
+        console.log(response.user[0].id);
+        this.setState({
+          addedUserId: response.user[0].id
+        })
+      }
+      })
+    .catch(error => {
+      console.log("failure");
+      console.error(error);
+    }).then( () => {
+      fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission/create', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          app_users_id: this.state.userId,
+          user_id_permitted: this.state.addedUserId
+        })
+      })
+      .then(res => res.json())
+      .then(response => {
+        if(response.error){
+          console.log(response.error)
+        } else {
+          console.log(response);
+        }
+    })
+    .catch(function(error){
+      console.log("Put error", error.message)
+      throw error
+    });
+  })
+  .then(() => this.getPermitted)
+}
 
   displayUsersYouPermitted = () => {
     return this.state.task_permission.map(task_permission =>
@@ -52,8 +97,8 @@ export default class Groups extends Component {
         <Text>{task_permission.first_name + ' ' + task_permission.last_name}</Text>
         <Button
           onPress={() => this.removePermission(task_permission.id)}
-          title="Add"
-          accessibilityLabel="Add a User to Share with Button"
+          title="Delete"
+          accessibilityLabel="Delete Button"
         />
       </View>
     )
@@ -109,8 +154,8 @@ export default class Groups extends Component {
           />
           <Button
             onPress={() => this.addUserShared(this.state.email)}
-            title="Delete"
-            accessibilityLabel="Delete Button"
+            title="Add"
+            accessibilityLabel="Add a User to Share with Button"
           />
         </View>
       </View>

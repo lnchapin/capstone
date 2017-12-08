@@ -13,17 +13,17 @@ router.get('/', function(req, res, next) {
   return
 });
 
-// router.post('/create', function(req, res, next){
-//   knex('task_permission').insert({
-//     app_users_id: ****Async Data app_users_id****,
-//     user_id_permitted: ***id where App user email = email put in***,
-//     label_id: ***id where label = label put in***,
-//   })
-//   .then(function(result){
-//     res.send("task successfully posted");
-//   })
-// return
-// })
+router.post('/create', function(req, res, next){
+  knex('task_permission').insert({
+    app_users_id: req.body.app_users_id,
+    user_id_permitted: req.body.user_id_permitted,
+    label_id: 1
+  })
+  .then(function(result){
+    res.json({message: "Access Granted"});
+  })
+return
+})
 //
 // router.put('/update/:id', function(req, res, next) {
 //   let task_permitted_id =  ****should we Async Data this data****

@@ -51,6 +51,11 @@ export default class Settings extends Component {
       } else {
         console.log(response);
         alert(response.message)
+        this.setState({
+          fNameValue: '',
+          lNameValue: '',
+          emailValue: ''
+          })
         // AsyncStorage.setItem('data', JSON.stringify(response))
         AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
       }

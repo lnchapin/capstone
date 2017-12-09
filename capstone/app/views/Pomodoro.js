@@ -49,7 +49,7 @@ export default class Pomodoro extends Component {
 
   render (){
 
-    console.log("State",this.state);
+    // console.log("State",this.state);
     return(
       <View>
         <Header />

@@ -15,22 +15,22 @@ export default class Settings extends Component {
   }
 
   componentDidMount(){
-    console.log("in component did mount");
+    // console.log("in component did mount");
     AsyncStorage.getItem('data')
       .then(res =>
         JSON.parse(res)
       )
       .then((user)=> {
         this.setState({userId: user.user_id})
-        console.log("user.user_id", user.user_id)
-        console.log(this.state.userId)
+        // console.log("user.user_id", user.user_id)
+        // console.log(this.state.userId)
       }
     )
 
 
   }
   updateUser = () => {
-    console.log("state at update", this.state);
+    // console.log("state at update", this.state);
     fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/`${this.state.userId}`", {
       method: "PUT",
       headers: {
@@ -49,7 +49,7 @@ export default class Settings extends Component {
       if(response.error){
         alert(response.error)
       } else {
-        console.log(response);
+        // console.log(response);
         alert(response.message)
         this.setState({
           fNameValue: '',
@@ -57,7 +57,7 @@ export default class Settings extends Component {
           emailValue: ''
           })
         // AsyncStorage.setItem('data', JSON.stringify(response))
-        AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
+        // AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
       }
 
     })

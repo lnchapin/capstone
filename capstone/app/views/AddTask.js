@@ -19,11 +19,11 @@ export default class AddTask extends Component {
   }
 
   componentDidMount() {
-    console.log("in component did mount");
+    // console.log("in component did mount");
     AsyncStorage.getItem('data').then(res => JSON.parse(res)).then((user) => {
       this.setState({userId: user.user_id})
-      console.log("user.user_id", user.user_id)
-      console.log(this.state.userId)
+      // console.log("user.user_id", user.user_id)
+      // console.log(this.state.userId)
     }).then(this.getPermitted)
   }
 
@@ -31,37 +31,37 @@ export default class AddTask extends Component {
     this.setState({
       task_name: value
     })
-    console.log(this.state.task_name)
+    // console.log(this.state.task_name)
   }
 
   taskItemChange = (value) => {
     this.setState({
       task_item: value
     })
-    console.log(this.state.task_item);
+    // console.log(this.state.task_item);
   }
 
   dateChange = (value) => {
     this.setState({
       date: value
     })
-    console.log(this.state.date)
+    // console.log(this.state.date)
   }
 
   timeChange = (value) => {
     this.setState({
       time: value
     })
-    console.log(this.state.time);
+    // console.log(this.state.time);
   }
 
   getPermitted = () => {
     fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission/userPermitted/' + `${this.state.userId}`).then(res => res.json()).then(response => {
-      console.log(response);
+      // console.log(response);
       this.setState({
         task_permission: response
       })
-      console.log("state 31", this.state);
+      // console.log("state 31", this.state);
     }).catch(error => {
       console.log("failure");
       console.error(error);
@@ -84,14 +84,14 @@ export default class AddTask extends Component {
 
   addPermittedUser = (id) =>{
     this.state.label_id.push(id)
-    console.log(this.state.label_id);
+    // console.log(this.state.label_id);
   }
 
   signUpSubmit = () => {
-    console.log(this.state.task_name);
-    console.log(this.state.task_item);
-    console.log(this.state.date);
-    console.log(this.state.time);
+    // console.log(this.state.task_name);
+    // console.log(this.state.task_item);
+    // console.log(this.state.date);
+    // console.log(this.state.time);
     // fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/signup", {
     //   method: "POST",
     //   headers: {

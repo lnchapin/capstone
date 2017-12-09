@@ -15,22 +15,22 @@ export default class Groups extends Component {
   }
 
   componentDidMount() {
-    console.log("in component did mount");
+    // console.log("in component did mount");
     AsyncStorage.getItem('data').then(res => JSON.parse(res)).then((user) => {
       this.setState({userId: user.user_id})
-      console.log("user.user_id", user.user_id)
-      console.log(this.state.userId)
+      // console.log("user.user_id", user.user_id)
+      // console.log(this.state.userId)
     }).then(this.getPermitted)
   }
 
   getPermitted = () => {
-    console.log("state at update", this.state);
+    // console.log("state at update", this.state);
     fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission/userPermitted/' + `${this.state.userId}`).then(res => res.json()).then(response => {
-      console.log(response);
+      // console.log(response);
       this.setState({
         task_permission: response
       })
-      console.log("state 31", this.state);
+      // console.log("state 31", this.state);
     }).catch(error => {
       console.log("failure");
       console.error(error);
@@ -47,48 +47,37 @@ export default class Groups extends Component {
     fetch('https://fast-depths-36909.herokuapp.com/api/v1/users/email/' + email)
     .then(res => res.json())
     .then(response => {
-      console.log(response);
+      // console.log(response);
       if (response.user.length < 1) {
-        console.log("no such user");
+        // console.log("no such user");
         alert("We don't have that user in our app, invite them to sign up")
-        // throw error
-        // this doesn't work.... Uppercase E also doesn't work 
       } else {
-        console.log(response.user[0].id);
+        // console.log(response.user[0].id);
         this.setState({
           addedUserId: response.user[0].id
         })
+        return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission/create', {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            app_users_id: this.state.userId,
+            user_id_permitted: this.state.addedUserId
+          })
+        })
+        .then(res => res.json())
       }
-      })
+    })
+    .then(() => {
+      // console.log('resetting email state');
+      return this.setState({email:''})
+    })
     .catch(error => {
       console.log("failure");
       console.error(error);
-    }).then( () => {
-      fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission/create', {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          app_users_id: this.state.userId,
-          user_id_permitted: this.state.addedUserId
-        })
-      })
-      .then(res => res.json())
-      .then(response => {
-        if(response.error){
-          console.log(response.error)
-        } else {
-          console.log(response);
-        }
-    })
-    .catch(function(error){
-      console.log("Put error", error.message)
-      throw error
-    });
-  })
-  .then(() => this.getPermitted)
+    }).then(() => this.getPermitted())
 }
 
   displayUsersYouPermitted = () => {

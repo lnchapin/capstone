@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native'
+import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, TouchableOpacity} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
+import Sign_up from './Sign_up'
 
 export default class Settings extends Component {
   constructor(){
@@ -15,22 +16,18 @@ export default class Settings extends Component {
   }
 
   componentDidMount(){
-    // console.log("in component did mount");
     AsyncStorage.getItem('data')
       .then(res =>
         JSON.parse(res)
       )
       .then((user)=> {
         this.setState({userId: user.user_id})
-        // console.log("user.user_id", user.user_id)
-        // console.log(this.state.userId)
       }
     )
 
 
   }
   updateUser = () => {
-    // console.log("state at update", this.state);
     fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/`${this.state.userId}`", {
       method: "PUT",
       headers: {
@@ -49,15 +46,12 @@ export default class Settings extends Component {
       if(response.error){
         alert(response.error)
       } else {
-        // console.log(response);
         alert(response.message)
         this.setState({
           fNameValue: '',
           lNameValue: '',
           emailValue: ''
           })
-        // AsyncStorage.setItem('data', JSON.stringify(response))
-        // AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
       }
 
     })
@@ -68,10 +62,8 @@ export default class Settings extends Component {
   }
 
   logoutUser = () => {
-    // AsyncStorage.removeItem('data');
-    AsyncStorage.getItem('data').then((res)=>console.log("getItem", res));
-    console.log(this.state.userId);
-    console.log("attempt at id from url", `${this.state.userId}`)
+    AsyncStorage.removeItem('data');
+    AsyncStorage.getItem('data').then((res)=>console.log("in logout user",res))
   }
 
 
@@ -126,11 +118,12 @@ export default class Settings extends Component {
             />
           </View>
           <View style={styles.buttonBack}>
-            <Button
-              onPress={this.logoutUser}
-              title="Log Out"
-              accessibilityLabel="Log Out Button"
-            />
+            <TouchableOpacity
+              onPressIn={() => this.logoutUser}
+              onPress={() => Actions.Sign_in()}
+              >
+            <Text style={styles.logout}>Log Out</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -163,6 +156,13 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 10,
     backgroundColor: '#e1dede'
+  },
+  logout: {
+    textAlign: 'center',
+    fontSize: 20,
+    paddingTop: 5,
+    paddingBottom: 5,
+    color: '#841584'
   }
 })
 

@@ -15,7 +15,6 @@ export default class Shared extends Component {
   }
 
   componentDidMount() {
-    // console.log("in component did mount");
     AsyncStorage.getItem('data').then(res => JSON.parse(res)).then((user) => {
       this.setState({userId: user.user_id})
     }).then(this.getSharedUsers)
@@ -40,19 +39,15 @@ export default class Shared extends Component {
           style={styles.taskBack}>
           <Text>{task_permission.first_name + ' ' + task_permission.last_name}</Text>
         </TouchableOpacity>
-        {/* {this.getTaskItems(task_permission.app_users_id)} */}
       </View>
     )
   }
 
   showTasks = (id) => {
-    console.log("id in showTasks", id);
     fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks/user/' + id)
     .then(res => res.json())
     .then(response => {
       this.setState({tasks_list: response, task_list_items: []})
-      // console.log(response);
-      // console.log("state 55", this.state);
   })
   .catch(function(error) {
     console.log(error.message);
@@ -69,7 +64,6 @@ export default class Shared extends Component {
           title={task.task_name}
           accessibilityLabel="Update Button"
         />
-        {/* {this.showTaskBreakdown(task.id)} */}
         <Text>Due Date: {task.date}</Text>
       </View>
     )
@@ -83,7 +77,6 @@ export default class Shared extends Component {
 
 
   showTaskBreakdown = (id) => {
-    // console.log("show task breakdown id", id);
     fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/task/' + id)
     .then(res => res.json())
     .then(response => {
@@ -91,7 +84,6 @@ export default class Shared extends Component {
         task_list_items: response
       })
     })
-      // console.log(response)
     .catch(function(error) {
       console.log(error.message);
       throw error;
@@ -106,7 +98,6 @@ export default class Shared extends Component {
     let individualTasks = <View />
     if (this.state.task_list_items) {
       individualTasks = this.showTaskListItems(this.state.task_list_items)
-      console.log("individualTasks", individualTasks);
     }
     return (
       <View>

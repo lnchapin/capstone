@@ -61,11 +61,11 @@ router.post('/signup', function(req, res, next){
             delete payload.password
             let token = jwt.sign(JSON.stringify(payload), process.env.TOKEN_SECRET)
 
-            res.send({token: token, user_id: payload.id})
+            res.json({token: token, user_id: payload.id})
           })
       } else {
         res.status(401)
-        res.send({error: 'Email already in use, please log in'})
+        res.json({error: 'Email already in use, please log in'})
       }
     })
 })

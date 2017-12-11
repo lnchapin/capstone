@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native'
+import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 

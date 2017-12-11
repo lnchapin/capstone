@@ -63,7 +63,6 @@ export default class Settings extends Component {
 
   logoutUser = () => {
     AsyncStorage.removeItem('data');
-    AsyncStorage.getItem('data').then((res)=>console.log("in logout user",res))
   }
 
 
@@ -72,21 +71,18 @@ export default class Settings extends Component {
     this.setState({
       fNameValue: value
     })
-    console.log(this.state.fNameValue)
   }
 
   onlNameChange = (value) => {
     this.setState({
       lNameValue: value
     })
-    console.log(this.state.lNameValue);
   }
 
   onEmailChange = (value) => {
     this.setState({
       emailValue: value
     })
-    console.log(this.state.emailValue)
   }
 
   render (){

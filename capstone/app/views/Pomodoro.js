@@ -4,12 +4,20 @@ import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 
 
+function secondsToHMS (secs) {
+  const hours = Math.floor(secs / 3600)
+  const mins = Math.floor(secs % 3600 / 60)
+  const seconds = Math.floor(secs % 3600 % 60)
+  return ((hours > 0 ? hours + ":" + (mins < 10 ? "0" : "") : "") + mins + ":" + (seconds < 10 ? "0" : "") + seconds)
+}
+
 export default class Pomodoro extends Component {
   constructor(){
     super()
     this.state = {
-      timer: 10,
-      rest: 10,
+      initialTimer: (25 * 60),
+      timer: (25 * 60),
+      rest: (5 * 60),
       activePeriod: 'timer',
       timerRunning: false
     }
@@ -27,7 +35,7 @@ export default class Pomodoro extends Component {
 
       if (nextSecond === 0) {
         this.setState({
-          [activePeriod]: 10,
+          [activePeriod]: activePeriod === 'timer' ? this.state.timer : this.state.rest,
           activePeriod: this.state.activePeriod === 'timer' ? 'rest' : 'timer'
         })
       } else {
@@ -42,20 +50,21 @@ export default class Pomodoro extends Component {
   handleReset = () => {
     window.clearInterval(this.interval)
     this.setState({
-      timer: 10,
+      timer: this.state.initialTimer,
       activePeriod: 'timer'
     })
+    console.log("clicked reset");
   }
 
   render (){
 
-    // console.log("State",this.state);
+    console.log("State",this.state);
     return(
       <View>
         <Header />
         <View style={styles.myView}>
-          <Text style={styles.timer}>Timer: {this.state.timer}</Text>
-          <Text style={styles.timer}>Rest: {this.state.rest}</Text>
+          <Text style={styles.timer}>Timer: {secondsToHMS(this.state.timer)}</Text>
+          <Text style={styles.timer}>Rest: {secondsToHMS(this.state.rest)}</Text>
           {/* <Text>Active Period: {this.state.activePeriod}</Text> */}
           <View style={styles.buttonBack}>
             <TouchableOpacity

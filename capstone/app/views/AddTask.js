@@ -7,14 +7,18 @@ export default class AddTask extends Component {
   constructor(){
     super()
     this.state = {
-      task_name:'',
+      task_name: '',
       task_item: [],
-      label_id: [],
+      task_item_1: '',
+      task_item_2: '',
+      task_item_3: '',
+      task_item_4: '',
+      task_item_5: '',
+      task_id: -1,
       date: '',
       time: '',
       active: true,
-      userId: -1,
-      task_permission: []
+      userId: -1
     }
   }
 
@@ -34,9 +38,37 @@ export default class AddTask extends Component {
     // console.log(this.state.task_name)
   }
 
-  taskItemChange = (value) => {
+  taskItem1Change = (value) => {
     this.setState({
-      task_item: value
+      task_item_1: value
+    })
+    // console.log(this.state.task_item);
+  }
+
+  taskItem2Change = (value) => {
+    this.setState({
+      task_item_2: value
+    })
+    // console.log(this.state.task_item);
+  }
+
+  taskItem3Change = (value) => {
+    this.setState({
+      task_item_3: value
+    })
+    // console.log(this.state.task_item);
+  }
+
+  taskItem4Change = (value) => {
+    this.setState({
+      task_item_4: value
+    })
+    // console.log(this.state.task_item);
+  }
+
+  taskItem5Change = (value) => {
+    this.setState({
+      task_item_5: value
     })
     // console.log(this.state.task_item);
   }
@@ -68,61 +100,33 @@ export default class AddTask extends Component {
     })
   }
 
-  displayUsersYouPermitted = () => {
-    return this.state.task_permission.map(task_permission =>
-      <View key={task_permission.id} style={styles.taskBack}>
-        <Text>
-          <TouchableOpacity
-          onPress={() => this.addPermittedUser(task_permission.user_id_permitted)}
-          style={styles.toDot}>
-          <Image style={styles.Dot} source={require('../images/primitive-dot.png')} />
-        </TouchableOpacity>
-        {task_permission.first_name + ' ' + task_permission.last_name}</Text>
-      </View>
+  addTask = () => {
+    console.log(this.state.task_name);
+    console.log(this.state.task_item_1, this.state.task_item_2, this.state.task_item_3,  this.state.task_item_4, this.state.task_item_5);
+    console.log(this.state.date);
+    console.log(this.state.time);
+    fetch("https://fast-depths-36909.herokuapp.com/api/v1/tasks/create", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        task_name: this.state.task_name,
+        app_users_id: this.state.userId,
+        date: this.state.date,
+        time: this.state.time
+      })
+    })
+    .then(res => res.json())
+    .then(response => {
+      console.log(response);
+      }
     )
-  }
-
-  addPermittedUser = (id) =>{
-    this.state.label_id.push(id)
-    // console.log(this.state.label_id);
-  }
-
-  signUpSubmit = () => {
-    // console.log(this.state.task_name);
-    // console.log(this.state.task_item);
-    // console.log(this.state.date);
-    // console.log(this.state.time);
-    // fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/signup", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({
-    //     first_name: this.state.fNameValue,
-    //     last_name: this.state.lNameValue,
-    //     email: this.state.emailValue,
-    //     password: this.state.passwordValue
-    //   })
-    // })
-  //   .then(res => res.json())
-  //   .then(response => {
-  //     console.log(response);
-  //     console.log(response.status);
-  //     if(response.status == 404){
-  //       alert('Email not found, please sign up')
-  //     } else if (response.status == 401) {
-  //       alert('Email already in use, please log in')
-  //     } else {
-  //       AsyncStorage.setItem('data', JSON.stringify(response))
-  //       AsyncStorage.getItem('data').then((res)=>console.log("getItem", res))
-  //       Actions.Home()
-  //     }
-  //   })
-  //   .catch(error => {
-  //     console.log("failure");
-  //     console.error(error);
-  //   })
+    .catch(error => {
+      console.log("failure");
+      console.error(error);
+    })
   }
 
   render () {
@@ -148,34 +152,32 @@ export default class AddTask extends Component {
           />
           <TextInput style={styles.textInput}
             placeholder='Steps One'
-            value={this.state.time}
-            onChangeText={(value)=> this.timeChange(value)}
+            value={this.state.task_item_1}
+            onChangeText={(value)=> this.taskItem1Change(value)}
           />
           <TextInput style={styles.textInput}
             placeholder='Steps Two'
-            value={this.state.time}
-            onChangeText={(value)=> this.timeChange(value)}
+            value={this.state.task_item_2}
+            onChangeText={(value)=> this.taskItem2Change(value)}
           />
           <TextInput style={styles.textInput}
             placeholder='Steps Three'
-            value={this.state.time}
-            onChangeText={(value)=> this.timeChange(value)}
+            value={this.state.task_item_3}
+            onChangeText={(value)=> this.taskItem3Change(value)}
           />
           <TextInput style={styles.textInput}
             placeholder='Steps Four'
-            value={this.state.time}
-            onChangeText={(value)=> this.timeChange(value)}
+            value={this.state.task_item_4}
+            onChangeText={(value)=> this.taskItem4Change(value)}
           />
           <TextInput style={styles.textInput}
             placeholder='Steps Five'
-            value={this.state.time}
-            onChangeText={(value)=> this.timeChange(value)}
+            value={this.state.task_item_5}
+            onChangeText={(value)=> this.taskItem5Change(value)}
           />
-          <Text>Who Do You Want to Share This With?</Text>
-          {this.displayUsersYouPermitted()}
           <View style={styles.buttonBack}>
             <Button
-              onPress={this.signUpSubmit}
+              onPress={this.addTask}
               title="Add Task"
               accessibilityLabel="Add Task Button"
             />

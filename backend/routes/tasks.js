@@ -13,21 +13,21 @@ router.get('/', function(req, res, next) {
   return
 });
 
-// router.post('/create', function(req, res, next){
-//   knex('task').insert({
-//     task_name: req.body.task_name,
-//     app_users_id: ****Async Data app_users_id****,
-//     label_name: req.body.label,
-//     date: req.body.date,
-//     time: req.body.time,
-//     active: true,
-//   })
-//   .then(function(result){
-//     res.send("task successfully posted");
-//   })
-// return
-// })
-//
+router.post('/create', function(req, res, next){
+  knex('task').insert({
+    task_name: req.body.task_name,
+    app_users_id: req.body.app_users_id,
+    label_name: 1,
+    date: req.body.date,
+    time: req.body.time,
+    active: true
+  })
+  .then(function(result){
+    res.json({message: "task successfully posted", results: result});
+  })
+return
+})
+
 // router.put('/update/:id', function(req, res, next) {
 //   let task_id =  ****should we Async Data task_id****
 //   return knex('task').where("id", task_id).update({

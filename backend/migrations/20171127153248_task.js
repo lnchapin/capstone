@@ -8,8 +8,8 @@ exports.up = function(knex, Promise) {
     table.integer("label_id")
       .references("label.id")
       .onDelete("CASCADE")
-    table.date("date")
-    table.time("time")
+    table.text("date")
+    table.text("time")
     table.boolean("active")
   })
 };

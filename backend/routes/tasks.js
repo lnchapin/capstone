@@ -17,13 +17,15 @@ router.post('/create', function(req, res, next){
   knex('task').insert({
     task_name: req.body.task_name,
     app_users_id: req.body.app_users_id,
-    label_name: 1,
+    label_id: 1,
     date: req.body.date,
     time: req.body.time,
     active: true
   })
-  .then(function(result){
-    res.json({message: "task successfully posted", results: result});
+  .returning('id')
+  .into('task')
+  .then(function (id) {
+    res.json({id});
   })
 return
 })

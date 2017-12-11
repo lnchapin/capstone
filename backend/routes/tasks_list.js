@@ -13,18 +13,14 @@ router.get('/', function(req, res, next) {
   return
 });
 
-// router.post('/create', function(req, res, next){
-//   knex('task_list').insert({
-//     task_id: **grab id from task table all on one page**,
-//     task_item: req.body.item,
-//     done: false,
-//   })
-//   .then(function(result){
-//     res.send("task item successfully posted");
-//   })
-// return
-// })
-//
+router.post('/create', function(req, res, next){
+  knex('task_list').insert(req.body)
+  .then(function(result){
+    res.send("task item successfully posted");
+  })
+return
+})
+
 // router.put('/update/:id', function(req, res, next) {
 //   let task_id =  ****should we Async Data task_id****
 //   return knex('task_list').where("id", task_id).update({

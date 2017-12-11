@@ -8,7 +8,7 @@ export default class AddTask extends Component {
     super()
     this.state = {
       task_name: '',
-      task_item: [],
+      task_item_arr: [],
       task_item_1: '',
       task_item_2: '',
       task_item_3: '',
@@ -87,24 +87,15 @@ export default class AddTask extends Component {
     // console.log(this.state.time);
   }
 
-  getPermitted = () => {
-    fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_permission/userPermitted/' + `${this.state.userId}`).then(res => res.json()).then(response => {
-      // console.log(response);
-      this.setState({
-        task_permission: response
-      })
-      // console.log("state 31", this.state);
-    }).catch(error => {
-      console.log("failure");
-      console.error(error);
-    })
-  }
-
   addTask = () => {
-    console.log(this.state.task_name);
-    console.log(this.state.task_item_1, this.state.task_item_2, this.state.task_item_3,  this.state.task_item_4, this.state.task_item_5);
-    console.log(this.state.date);
-    console.log(this.state.time);
+    // console.log(this.state.task_name);
+    // console.log(this.state.task_item_1, this.state.task_item_2, this.state.task_item_3,  this.state.task_item_4, this.state.task_item_5);
+    // console.log(this.state.date);
+    // console.log(this.state.time);
+
+  //   this.setState({
+  //   task_item: [{task_id: this.state.task_id, task_item: this.state.task_item_1}, {task_id: this.state.task_id, task_item: this.state.task_item_2}, {task_id: this.state.task_id, task_item: this.state.task_item_3}, {task_id: this.state.task_id, task_item: this.state.task_item_4}, {task_id: this.state.task_id, task_item: this.state.task_item_5}]
+  // })
     fetch("https://fast-depths-36909.herokuapp.com/api/v1/tasks/create", {
       method: "POST",
       headers: {
@@ -120,9 +111,41 @@ export default class AddTask extends Component {
     })
     .then(res => res.json())
     .then(response => {
-      console.log(response);
-      }
-    )
+      this.setState({
+        task_id: response.id[0],
+      })
+
+      let task_item_arr = [{
+        task_id: this.state.task_id,
+        task_item: this.state.task_item_1,
+        done: false
+      }, {
+        task_id: this.state.task_id,
+        task_item: this.state.task_item_2,
+        done: false
+      }, {
+        task_id: this.state.task_id,
+        task_item: this.state.task_item_3,
+        done: false
+      }, {
+        task_id: this.state.task_id,
+        task_item: this.state.task_item_4,
+        done: false
+      }, {
+        task_id: this.state.task_id,
+        task_item: this.state.task_item_5,
+        done: false
+      }]
+
+    return fetch("https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/create", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(task_item_arr)
+    })
+  })
     .catch(error => {
       console.log("failure");
       console.error(error);

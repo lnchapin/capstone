@@ -150,7 +150,7 @@ export default class Home extends Component {
       <Header/>
       <Button
         style={styles.button}
-        onPress={()=> Actions.AddTask()}
+        onPress={()=> Actions.AddTask({add: true, getUserTasks: this.getUserTasks})}
         title='Add Task'
         accessibilityLabel="Add Task Button"/>
       <ScrollView >
@@ -160,6 +160,7 @@ export default class Home extends Component {
             {this.displayUserTasks()}
           </View>
         </View>
+        <View style={styles.clear}></View>
       </ScrollView>
   </View>)
   }
@@ -201,7 +202,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '40%',
     height: 40
-}
+},
+  clear: {
+    marginBottom: 60
+  }
 })
 
 module.exports = Home

@@ -30,22 +30,31 @@ router.post('/create', function(req, res, next){
 return
 })
 
-// router.put('/update/:id', function(req, res, next) {
-//   let task_id =  ****should we Async Data task_id****
-//   return knex('task').where("id", task_id).update({
-//     task_name: req.body.task_name,
-//     app_users_id: ****Async Data app_users_id****,
-//     label_name: req.body.label,
-//     date: req.body.date,
-//     time: req.body.time,
-//     active: true,
-//     })
-//   .then(function(result){
-//     res.send("task successfully edited");
-//   })
-//   return
-// });
+router.put('/update/:id', function(req, res, next) {
+  let task_id = req.body.id
+  delete req.body.id
+
+  return knex('task').where("id", task_id)
+  .update(req.body)
+  .then(function(result){
+    res.json("task successfully edited");
+  })
+  return
+});
+
+/* not the file - fake knex*/
+// Promise.all(req.body.map(task => {
+//   const id = task.id
+//   delete task.id
 //
+//   return knex('task')
+//     .where('id', id)
+//     .update(task)
+// }))
+// .then(() => {
+//   res.send('updated all the stuff!')
+// })
+
 router.put('/finished/:id', function(req, res, next) {
   let task_id =  req.body.id
   return knex('task').where("id", task_id).update({

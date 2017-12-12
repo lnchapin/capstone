@@ -4,8 +4,8 @@ import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 
 export default class AddTask extends Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
       task_name: '',
       task_item_1: '',
@@ -26,7 +26,8 @@ export default class AddTask extends Component {
       this.setState({userId: user.user_id})
       // console.log("user.user_id", user.user_id)
       // console.log(this.state.userId)
-    }).then(this.getPermitted)
+    })
+    // .then(this.getPermitted)
   }
 
   taskNameChange = (value) => {
@@ -86,7 +87,7 @@ export default class AddTask extends Component {
   }
 
   addTask = () => {
-    fetch("https://fast-depths-36909.herokuapp.com/api/v1/tasks/create", {
+    return fetch("https://fast-depths-36909.herokuapp.com/api/v1/tasks/create", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -150,6 +151,11 @@ export default class AddTask extends Component {
       time: ''
     })}
   )
+  .then(() => {
+    this.props.getUserTasks()
+    Actions.Home()
+    console.log('After home:');
+  })
     .catch(error => {
       console.log("failure");
       console.error(error);

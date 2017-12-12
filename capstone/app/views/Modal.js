@@ -625,11 +625,6 @@ export default class Modal extends Component {
           accessibilityLabel="Update Button"
         />
         {this.showTextInputtaskItem5()}
-        <Button
-          onPress={() => console.log("state check", this.state)}
-          title='check state'
-          accessibilityLabel="Update Button"
-        />
       </View>
       </View>
       </Background>

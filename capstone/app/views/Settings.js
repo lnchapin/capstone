@@ -3,6 +3,7 @@ import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncS
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 import Sign_up from './Sign_up'
+import Background from '../components/Background'
 
 export default class Settings extends Component {
   constructor(){
@@ -88,8 +89,10 @@ export default class Settings extends Component {
   render (){
     return(
       <View>
+        <Background>
         <Header />
         <View style={styles.myView}>
+          <View style={styles.card}>
           <Text style={styles.signUp}>Update</Text>
           <TextInput style={styles.textInput}
             placeholder='First Name'
@@ -123,6 +126,8 @@ export default class Settings extends Component {
           </View>
         </View>
       </View>
+      </Background>
+      </View>
     )
   }
 }
@@ -133,6 +138,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     marginTop: 150,
+  },
+  card: {
+    backgroundColor: 'white',
+    width: 300,
+    alignItems: 'center',
+    marginBottom: 5,
+    borderRadius: 10
   },
   signUp: {
     fontWeight: '700',

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, Alert} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
+import Background from '../components/Background'
 
 export default class Groups extends Component {
   constructor() {
@@ -128,8 +129,10 @@ export default class Groups extends Component {
 
     return (
       <View>
+      <Background>
       <Header/>
       <View style={styles.myView}>
+        <View style={styles.card}>
         <Text style={styles.signUp}>People You Share With</Text>
         <View>
           {this.displayUsersYouPermitted()}
@@ -148,6 +151,8 @@ export default class Groups extends Component {
           />
         </View>
       </View>
+      </View>
+    </Background>
     </View>)
   }
 }
@@ -157,6 +162,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5
+  },
+  card: {
+    backgroundColor: 'white',
+    width: 300,
+    alignItems: 'center',
+    marginBottom: 5,
+    borderRadius: 10
   },
   signUp: {
     fontWeight: '700',

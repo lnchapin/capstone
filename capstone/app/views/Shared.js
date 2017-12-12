@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, TouchableOpacity} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
+import Background from '../components/Background'
 
 export default class Shared extends Component {
   constructor() {
@@ -101,16 +102,19 @@ export default class Shared extends Component {
     }
     return (
       <View>
+      <Background>
       <Header/>
       <View style={styles.myView}>
+        <View style={styles.card}>
         <Text style={styles.signUp}>Tasks</Text>
         <View>
           {this.displayUsersYouCanSee()}
           {details}
           {individualTasks}
         </View>
-
       </View>
+      </View>
+    </Background>
     </View>)
   }
 }
@@ -120,6 +124,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5
+  },
+  card: {
+    backgroundColor: 'white',
+    width: 300,
+    alignItems: 'center',
+    marginBottom: 5,
+    borderRadius: 10
   },
   signUp: {
     fontWeight: '700',

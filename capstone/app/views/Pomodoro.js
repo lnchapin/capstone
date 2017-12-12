@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput, Button, TouchableOpacity} from 'react-native';
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
+import Background from '../components/Background'
 
 
 function secondsToHMS (secs) {
@@ -61,8 +62,10 @@ export default class Pomodoro extends Component {
     console.log("State",this.state);
     return(
       <View>
+        <Background>
         <Header />
         <View style={styles.myView}>
+          <View style={styles.card}>
           <Text style={styles.timer}>Timer: {secondsToHMS(this.state.timer)}</Text>
           <Text style={styles.timer}>Rest: {secondsToHMS(this.state.rest)}</Text>
           {/* <Text>Active Period: {this.state.activePeriod}</Text> */}
@@ -81,6 +84,8 @@ export default class Pomodoro extends Component {
             </TouchableOpacity>
           </View>
         </View>
+        </View>
+        </Background>
       </View>
     )
   }
@@ -91,16 +96,23 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems: 'center',
     padding: 5,
-    marginTop: 200
+    marginTop: 80
+  },
+  card: {
+    backgroundColor: 'white',
+    width: 300,
+    alignItems: 'center',
+    marginBottom: 5,
+    borderRadius: 10
   },
   timer:{
     fontWeight: '700',
-    fontSize: 40
+    fontSize: 60
   },
   buttonBack: {
     width: 130,
     padding: 5,
-    margin: 5,
+    margin: 15,
     borderRadius: 10,
     backgroundColor: '#e1dede'
   },

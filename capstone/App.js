@@ -20,8 +20,8 @@ export default class App extends React.Component {
 
         <Scene  key="root">
 
-           {/* <Scene key="Sign_in" hideNavBar={true} component={Sign_in} initial={true} />
-           <Scene key="Sign_up" hideNavBar={true} component={Sign_up} initial={false} /> */}
+           <Scene key="Sign_in" hideNavBar={true} component={Sign_in} initial={true} />
+           <Scene key="Sign_up" hideNavBar={true} component={Sign_up} initial={false} />
           <Scene key="inApp" tabs={true} hideNavBar={true}>
             <Scene key="Home" hideNavBar={true} component={Home} initial={true} />
             <Scene key="Pomodoro" hideNavBar={true} component={Pomodoro} initial={false} />

@@ -3,6 +3,8 @@ import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncS
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 import Dot from '../images/primitive-dot.png'
+import Background from '../components/Background'
+
 export default class Modal extends Component {
   constructor(props) {
     super(props)
@@ -547,7 +549,10 @@ export default class Modal extends Component {
   render() {
     return (
       <View>
+        <Background>
         <Header />
+        <View style={styles.myView}>
+          <View style={styles.card}>
         <Button
           onPress={() =>
             this.setState({
@@ -626,6 +631,9 @@ export default class Modal extends Component {
           accessibilityLabel="Update Button"
         />
       </View>
+      </View>
+      </Background>
+    </View>
     )
   }
 }
@@ -634,6 +642,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5
+  },
+  card: {
+    backgroundColor: 'white',
+    width: 300,
+    alignItems: 'center',
+    marginBottom: 5,
+    borderRadius: 10
   },
   taskBack: {
     width: 200,

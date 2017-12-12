@@ -4,6 +4,7 @@ import {Actions} from 'react-native-router-flux'
 import Sign_up from './Sign_up'
 import Home from './Home'
 import Header from '../components/Header'
+import Background from '../components/Background'
 
 
 export default class Sign_in extends Component {
@@ -66,8 +67,10 @@ export default class Sign_in extends Component {
   render (){
     return(
       <View>
+        <Background>
         <Header />
         <View style={styles.myView}>
+          <View style={styles.card}>
           <Text style={styles.signIn}>Sign In</Text>
           <TextInput style={styles.textInput}
             placeholder='Email'
@@ -76,7 +79,7 @@ export default class Sign_in extends Component {
           />
           <TextInput style={styles.textInput}
             placeholder='Password'
-            // secureTextEntry={true}
+            secureTextEntry={true}
             value={this.state.passwordValue}
             onChangeText={(value)=> this.onPasswordChange(value)}
           />
@@ -93,6 +96,8 @@ export default class Sign_in extends Component {
             accessibilityLabel="Don't have an account? Create One"
           />
         </View>
+        </View>
+      </Background>
       </View>
     )
   }
@@ -104,6 +109,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     marginTop: 200,
+  },
+  card: {
+    backgroundColor: 'white',
+    width: 300,
+    alignItems: 'center',
+    marginBottom: 5,
+    borderRadius: 10
   },
   signIn: {
     fontWeight: '700',

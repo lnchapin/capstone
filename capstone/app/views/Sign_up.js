@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
+import Background from '../components/Background'
 
 export default class Sign_up extends Component {
   constructor(){
@@ -83,8 +84,10 @@ export default class Sign_up extends Component {
   render () {
     return(
       <View>
+        <Background>
         <Header />
         <View style={styles.myView}>
+          <View style={styles.card}>
           <Text style={styles.signUp}>Sign Up</Text>
           <TextInput style={styles.textInput}
             placeholder='First Name'
@@ -114,12 +117,14 @@ export default class Sign_up extends Component {
               accessibilityLabel="Sign Up Button"
             />
           </View>
+          </View>
           <Button
             onPress={() => Actions.Sign_in()}
             title="Already have an account? Log in"
             accessibilityLabel="Already have an account? Log in"
           />
         </View>
+      </Background>
       </View>
     )
   }
@@ -131,6 +136,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     marginTop: 150,
+  },
+  card: {
+    backgroundColor: 'white',
+    width: 300,
+    alignItems: 'center',
+    marginBottom: 5,
+    borderRadius: 10
   },
   signUp: {
     fontWeight: '700',

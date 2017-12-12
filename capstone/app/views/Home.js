@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, Image, TouchableOpacity, ScrollView} from 'react-native'
+import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, Image, TouchableOpacity, ScrollView, ImageBackground} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 import Dot from '../images/primitive-dot.png'
+import Background from '../components/Background'
 
 export default class Home extends Component {
   constructor() {
@@ -147,21 +148,25 @@ export default class Home extends Component {
   render() {
     return (
       <View>
+      <Background>
       <Header/>
-      <Button
-        style={styles.button}
-        onPress={()=> Actions.AddTask({add: true, getUserTasks: this.getUserTasks})}
-        title='Add Task'
-        accessibilityLabel="Add Task Button"/>
       <ScrollView >
         <View style={styles.myView}>
+          <View style={styles.card}>
+          <Button
+            style={styles.button}
+            onPress={()=> Actions.AddTask({add: true, getUserTasks: this.getUserTasks})}
+            title='Add Task'
+            accessibilityLabel="Add Task Button"/>
           <Text style={styles.signUp}>Tasks</Text>
           <View>
             {this.displayUserTasks()}
           </View>
         </View>
         <View style={styles.clear}></View>
+      </View>
       </ScrollView>
+      </Background>
   </View>)
   }
 }
@@ -170,7 +175,23 @@ const styles = StyleSheet.create({
   myView: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 5
+    padding: 15
+  },
+  card: {
+    backgroundColor: 'white',
+    width: 300,
+    alignItems: 'center',
+    marginBottom: 5,
+    borderRadius: 10
+  },
+  signUp: {
+    fontWeight: '700',
+    fontSize: 24
+  },
+  background: {
+    width: 1440,
+    height: 900,
+    opacity: 200
   },
   taskBack: {
     width: 200,
@@ -196,13 +217,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: 150,
     marginTop: 5,
-    marginBottom: 25
+    marginBottom: 5
 },
   button: {
     borderRadius: 10,
     width: '40%',
     height: 40
 },
+  addButton: {
+    width: 40
+  },
   clear: {
     marginBottom: 60
   }

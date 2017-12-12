@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, Image, TouchableOpacity} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
+import Background from '../components/Background'
 
 export default class AddTask extends Component {
   constructor(props){
@@ -165,8 +166,10 @@ export default class AddTask extends Component {
   render () {
     return(
       <View>
+      <Background>
         <Header />
         <View style={styles.myView}>
+          <View style={styles.card}>
           <Text style={styles.signUp}>Add Task</Text>
           <TextInput style={styles.textInput}
             placeholder='Task Name'
@@ -215,7 +218,9 @@ export default class AddTask extends Component {
               accessibilityLabel="Add Task Button"
             />
           </View>
+          </View>
         </View>
+      </Background>
       </View>
     )
   }
@@ -227,6 +232,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 5,
     marginTop: 10,
+  },
+  card: {
+    backgroundColor: 'white',
+    width: 300,
+    alignItems: 'center',
+    marginBottom: 5,
+    borderRadius: 10
   },
   signUp: {
     fontWeight: '700',

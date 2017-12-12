@@ -1,17 +1,15 @@
 
 exports.seed = function(knex, Promise) {
-  // Deletes ALL existing entries
   return knex('task').del()
     .then(function () {
-      // Inserts seed entries
       return knex('task').insert([
         {
           id: 1,
           task_name: "Create Wireframes",
           app_users_id: 1,
           label_id: 1,
-          date: new Date(),
-          time: '14:00',
+          date: 'December 28, 2017',
+          time: '7:00pm',
           active: true,
         },
         {
@@ -19,8 +17,8 @@ exports.seed = function(knex, Promise) {
           task_name: "Clean out Closet",
           app_users_id: 1,
           label_id: 2,
-          date: new Date(),
-          time: '14:00',
+          date: 'December 30,2017',
+          time: '2:00',
           active: true,
         },
         {
@@ -28,8 +26,8 @@ exports.seed = function(knex, Promise) {
           task_name: "Grocery Shop for the week",
           app_users_id: 2,
           label_id: 2,
-          date: new Date(),
-          time: '14:00',
+          date: 'December 30,2017',
+          time: '4:00',
           active: true,
         },
       ]);

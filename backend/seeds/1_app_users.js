@@ -8,7 +8,7 @@ exports.seed = function(knex, Promise) {
           id: 1,
           first_name: 'Lindsay',
           last_name: 'Chapin',
-          email: 'lindsay@linday.com',
+          email: 'lindsay@lindsay.com',
           password: '$2a$13$CiRpEgaSnbGd.zCscx99cuZFs3jSlQwkqEO140x9veCaP3zZ6fZlm'
         },
         {

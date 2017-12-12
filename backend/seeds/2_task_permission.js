@@ -28,16 +28,10 @@ exports.seed = function(knex, Promise) {
           app_users_id: 1,
           user_id_permitted: 3,
           label_id: 1
-        },
-        {
-          id: 5,
-          app_users_id: 2,
-          user_id_permitted: 1,
-          label_id: 3
-        },
+        }
       ]);
     })
     .then(function () {
-      return knex.raw('alter sequence task_permission_id_seq restart with 6')
+      return knex.raw('alter sequence task_permission_id_seq restart with 5')
     })
 };

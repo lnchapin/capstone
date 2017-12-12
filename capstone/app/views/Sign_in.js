@@ -35,7 +35,7 @@ export default class Sign_in extends Component {
   signInSubmit = () => {
     console.log(this.state.emailValue, this.state.passwordValue);
 
-    fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/login", {
+    return fetch("https://fast-depths-36909.herokuapp.com/api/v1/users/login", {
       method: "POST",
       headers: {
         Accept: "application/json",

@@ -15,23 +15,25 @@ router.get('/', function(req, res, next) {
 
 router.post('/create', function(req, res, next){
   knex('task_list').insert(req.body)
-  .then(function(result){
-    res.send("task item successfully posted");
+  .returning('id')
+  .into('task_list')
+  .then(function (id) {
+    res.json({id});
   })
 return
 })
 
-// router.put('/update/:id', function(req, res, next) {
-//   let task_id =  ****should we Async Data task_id****
-//   return knex('task_list').where("id", task_id).update({
-//     task_item: req.body.item,
-//     done: false,
-//     })
-//   .then(function(result){
-//     res.send("task successfully edited");
-//   })
-//   return
-// });
+router.put('/update/:id', function(req, res, next) {
+  let id = req.body.id
+  delete req.body.id
+
+  return knex('task_list').where("id", id)
+  .update(req.body)
+  .then(function(result){
+    res.json("task successfully edited");
+  })
+  return
+});
 
 router.put('/finished/:id', function(req, res, next) {
   let task_id =  req.body.id

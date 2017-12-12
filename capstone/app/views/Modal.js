@@ -26,12 +26,29 @@ export default class Modal extends Component {
       taskItem2: '',
       taskItem3: '',
       taskItem4: '',
-      taskItem5: ''
+      taskItem5: '',
+      taskItem1Id: '',
+      taskItem2Id: '',
+      taskItem3Id: '',
+      taskItem4Id: '',
+      taskItem5Id: ''
     }
   }
   componentDidMount() {
     this.getData()
+    .then( () =>{
+      console.log("state in mount",this.state.tasks_list);
+      this.setState({
+        taskItem1Id: (this.state.tasks_list[0].id ? this.state.tasks_list[0].id : undefined),
+        taskItem2Id: (this.state.tasks_list[1].id ? this.state.tasks_list[1].id : undefined),
+        taskItem3Id: (this.state.tasks_list[2] ? this.state.tasks_list[2].id : undefined),
+        taskItem4Id: (this.state.tasks_list[3] ? this.state.tasks_list[3].id : undefined),
+        taskItem5Id: (this.state.tasks_list[4] ? this.state.tasks_list[4].id : undefined),
+      })
+      console.log("state in mount after setState", this.state);
+    })
   }
+
   getData = () => {
     console.log('in getData')
     return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks/' + this.props.id)
@@ -45,7 +62,6 @@ export default class Modal extends Component {
           .then(response => {
             this.setState({tasks_list: response})
             console.log(response)
-            console.log('state 30', this.state)
           })
           .catch(function(error) {
             console.log(error.message)
@@ -57,31 +73,12 @@ export default class Modal extends Component {
         console.error(error)
       })
   }
+
   taskNameChange = value => {
     this.setState({name: value})
   }
-  dateChange = value => {
-    this.setState({date: value})
-  }
-  timeChange = value => {
-    this.setState({time: value})
-  }
-  taskItem1Change = value => {
-    this.setState({taskItem1: value})
-  }
-  taskItem2Change = value => {
-    this.setState({taskItem2: value})
-  }
-  taskItem3Change = value => {
-    this.setState({taskItem3: value})
-  }
-  taskItem4Change = value => {
-    this.setState({taskItem4: value})
-  }
-  taskItem5Change = value => {
-    this.setState({taskItem5: value})
-  }
-  showTextInputName = (callback) => {
+
+  showTextInputName = () => {
     if (!this.state.editModeName) return <View />
     return (
       <View>
@@ -90,69 +87,7 @@ export default class Modal extends Component {
       </View>
     )
   }
-  showTextInputDate = () => {
-    if (!this.state.editModeDate) return <View />
-    return (
-      <View>
-        <TextInput style={styles.textInput} placeholder="Date" onChangeText={value => this.dateChange(value)} />
-        <Button onPress={this.taskDateFunction} title="Submit Date Change" accessibilityLabel="Submit Date Change Button" />
-      </View>
-    )
-  }
-  showTextInputTime = () => {
-    if (!this.state.editModeTime) return <View />
-    return (
-      <View>
-        <TextInput style={styles.textInput} placeholder="Time" onChangeText={value => this.timeChange(value)} />
-        <Button onPress={this.taskTimeFunction} title="Submit Time Change" accessibilityLabel="Submit Time Change Button" />
-      </View>
-    )
-  }
-  showTextInputtaskItem1 = () => {
-    if (!this.state.editMode1) return <View />
-    return (
-      <View>
-        <TextInput style={styles.textInput} placeholder="Task Item" onChangeText={value => this.taskItem1Change(value)} />
-        <Button onPress={this.taskItem1Function} title="Task Item Change" accessibilityLabel="Task Item Change Button" />
-      </View>
-    )
-  }
-  showTextInputtaskItem2 = () => {
-    if (!this.state.editMode2) return <View />
-    return (
-      <View>
-        <TextInput style={styles.textInput} placeholder="Task Item" onChangeText={value => this.taskItem2Change(value)} />
-        <Button onPress={this.taskItem2Function} title="Task Item Change" accessibilityLabel="Task Item Change Button" />
-      </View>
-    )
-  }
-  showTextInputtaskItem3 = () => {
-    if (!this.state.editMode3) return <View />
-    return (
-      <View>
-        <TextInput style={styles.textInput} placeholder="Task Item" onChangeText={value => this.taskItem3Change(value)} />
-        <Button onPress={this.taskItem3Function} title="Task Item Change" accessibilityLabel="Task Item Change Button" />
-      </View>
-    )
-  }
-  showTextInputtaskItem4 = () => {
-    if (!this.state.editMode4) return <View />
-    return (
-      <View>
-        <TextInput style={styles.textInput} placeholder="Task Item" onChangeText={value => this.taskItem4Change(value)} />
-        <Button onPress={this.taskItem4Function} title="Task Item Change" accessibilityLabel="Task Item Change Button" />
-      </View>
-    )
-  }
-  showTextInputtaskItem5 = () => {
-    if (!this.state.editMode5) return <View />
-    return (
-      <View>
-        <TextInput style={styles.textInput} placeholder="Task Item" onChangeText={value => this.taskItem5Change(value)} />
-        <Button onPress={this.taskItem5Function} title="Task Item Change" accessibilityLabel="Task Item Change Button" />
-      </View>
-    )
-  }
+
   taskNameFunction = () => {
     let taskName = {
       id: this.props.id,
@@ -177,6 +112,22 @@ export default class Modal extends Component {
         console.error(error)
       })
   }
+
+  dateChange = value => {
+    this.setState({date: value})
+  }
+
+  showTextInputDate = () => {
+    console.log(this.state)
+    if (!this.state.editModeDate) return <View />
+    return (
+      <View>
+        <TextInput style={styles.textInput} placeholder="Date" onChangeText={value => this.dateChange(value)} />
+        <Button onPress={this.taskDateFunction} title="Submit Date Change" accessibilityLabel="Submit Date Change Button" />
+      </View>
+    )
+  }
+
   taskDateFunction = () => {
     let taskDate = {
       id: this.props.id,
@@ -195,19 +146,404 @@ export default class Modal extends Component {
         alert('Date Changed')
         this.setState({date: ''})
       })
+      .then(this.getData)
       .catch(error => {
         console.log('failure')
         console.error(error)
       })
   }
-  taskItem5Function = () => {
-    console.log('in taskItem5Function')
-    if (this.state.tasks_list[4] === undefined) {
-      console.log('task item 5 undefined')
+
+  timeChange = value => {
+    this.setState({time: value})
+  }
+
+  showTextInputTime = () => {
+    if (!this.state.editModeTime) return <View />
+    return (
+      <View>
+        <TextInput style={styles.textInput} placeholder="Time" onChangeText={value => this.timeChange(value)} />
+        <Button onPress={this.taskTimeFunction} title="Submit Time Change" accessibilityLabel="Submit Time Change Button" />
+      </View>
+    )
+  }
+
+  taskTimeFunction = () => {
+    let taskDate = {
+      id: this.props.id,
+      time: this.state.time
+    }
+    return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks/update/' + this.props.id, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(taskDate)
+    })
+      .then(secResponse => {
+        console.log(secResponse)
+        alert('Time Changed')
+        this.setState({time: ''})
+      })
+      .then(this.getData)
+      .catch(error => {
+        console.log('failure')
+        console.error(error)
+      })
+  }
+
+  taskItem1Change = value => {
+    this.setState({taskItem1: value})
+  }
+
+  showTextInputtaskItem1 = () => {
+    if (!this.state.editMode1) return <View />
+    return (
+      <View>
+        <TextInput style={styles.textInput} placeholder="Task Item" onChangeText={value => this.taskItem1Change(value)} />
+        <Button onPress={this.taskItem1Function} title="Task Item Change" accessibilityLabel="Task Item Change Button" />
+      </View>
+    )
+  }
+
+  taskItem1Function = () => {
+    console.log('in taskItem1Function')
+    if (this.state.taskItem1Id === undefined) {
+      console.log("in the if");
+      return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/create', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          task_id: this.props.id,
+          task_item: this.state.taskItem1,
+          done: false
+        })
+      })
+      .then(res => res.json())
+      .then(secResponse => {
+        console.log(secResponse)
+        alert('Task Item Changed')
+        this.setState({taskItem1: '', taskItem1Id:secResponse.id[0]})
+        console.log("in sec response if");
+      })
+      .then(this.getData)
+  .catch(error => {
+    console.log("failure");
+    console.error(error);
+  })
     } else {
-      console.log('task item 5 defined')
+      console.log("else url", 'https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/update/' + this.state.taskItem1Id);
+      return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/update/' + this.state.taskItem1Id, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: this.state.tasks_list[0].id,
+          task_id: this.props.id,
+          task_item: this.state.taskItem1
+        })
+      })
+        .then(secResponse => {
+          console.log(secResponse)
+          alert('Task Item Changed')
+          this.setState({taskItem1: ''})
+          console.log("in sec response else");
+
+        })
+        .then(this.getData)
+        .catch(error => {
+          console.log('failure')
+          console.error(error)
+        })
     }
   }
+
+  taskItem2Change = value => {
+    this.setState({taskItem2: value})
+  }
+
+  showTextInputtaskItem2 = () => {
+    if (!this.state.editMode2) return <View />
+    return (
+      <View>
+        <TextInput style={styles.textInput} placeholder="Task Item" onChangeText={value => this.taskItem2Change(value)} />
+        <Button onPress={this.taskItem2Function} title="Task Item Change" accessibilityLabel="Task Item Change Button" />
+      </View>
+    )
+  }
+
+  taskItem2Function = () => {
+    console.log('in taskItem2Function')
+    if (this.state.taskItem2Id === undefined) {
+      console.log("in the if");
+      return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/create', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          task_id: this.props.id,
+          task_item: this.state.taskItem2,
+          done: false
+        })
+      })
+      .then(res => res.json())
+      .then(secResponse => {
+        console.log(secResponse)
+        alert('Task Item Changed')
+        this.setState({taskItem2: '', taskItem2Id:secResponse.id[0]})
+        console.log("in sec response if");
+      })
+      .then(this.getData)
+  .catch(error => {
+    console.log("failure");
+    console.error(error);
+  })
+    } else {
+      console.log("else url", 'https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/update/' + this.state.taskItem2Id);
+      return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/update/' + this.state.taskItem2Id, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: this.state.taskItem2Id,
+          task_id: this.props.id,
+          task_item: this.state.taskItem2
+        })
+      })
+        .then(secResponse => {
+          console.log(secResponse)
+          alert('Task Item Changed')
+          this.setState({taskItem2: ''})
+          console.log("in sec response else");
+
+        })
+        .then(this.getData)
+        .catch(error => {
+          console.log('failure')
+          console.error(error)
+        })
+    }
+  }
+
+  taskItem3Change = value => {
+    this.setState({taskItem3: value})
+  }
+
+  showTextInputtaskItem3 = () => {
+    if (!this.state.editMode3) return <View />
+    return (
+      <View>
+        <TextInput style={styles.textInput} placeholder="Task Item" onChangeText={value => this.taskItem3Change(value)} />
+        <Button onPress={this.taskItem3Function} title="Task Item Change" accessibilityLabel="Task Item Change Button" />
+      </View>
+    )
+  }
+
+  taskItem3Function = () => {
+    console.log('in taskItem3Function')
+    if (this.state.taskItem3Id === undefined) {
+      console.log("in the if");
+      return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/create', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          task_id: this.props.id,
+          task_item: this.state.taskItem3,
+          done: false
+        })
+      })
+      .then(res => res.json())
+      .then(secResponse => {
+        console.log("secResponse", secResponse)
+        alert('Task Item Added')
+        this.setState({taskItem3: '', taskItem3Id:secResponse.id[0]})
+        console.log("in sec response if");
+      })
+      .then(this.getData)
+  .catch(error => {
+    console.log("failure");
+    console.error(error);
+  })
+    } else {
+      console.log("else url", 'https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/update/' + this.state.taskItem3Id);
+      return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/update/' + this.state.taskItem3Id, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: this.state.taskItem3Id,
+          task_id: this.props.id,
+          task_item: this.state.taskItem3
+        })
+      })
+        .then(secResponse => {
+          console.log(secResponse)
+          alert('Task Item Changed')
+          this.setState({taskItem3: ''})
+          console.log("in sec response else");
+
+        })
+        .then(this.getData)
+        .catch(error => {
+          console.log('failure')
+          console.error(error)
+        })
+    }
+  }
+
+  taskItem4Change = value => {
+    this.setState({taskItem4: value})
+  }
+
+  showTextInputtaskItem4 = () => {
+    if (!this.state.editMode4) return <View />
+    return (
+      <View>
+        <TextInput style={styles.textInput} placeholder="Task Item" onChangeText={value => this.taskItem4Change(value)} />
+        <Button onPress={this.taskItem4Function} title="Task Item Change" accessibilityLabel="Task Item Change Button" />
+      </View>
+    )
+  }
+
+  taskItem4Function = () => {
+    console.log('in taskItem4Function')
+    if (this.state.taskItem4Id === undefined) {
+      console.log("in the if");
+      return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/create', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          task_id: this.props.id,
+          task_item: this.state.taskItem4,
+          done: false
+        })
+      })
+      .then(res => res.json())
+      .then(secResponse => {
+        alert('Task Item Changed')
+        this.setState({taskItem4: '', taskItem4Id:secResponse.id[0]})
+        console.log("in sec response if");
+      })
+      .then(this.getData)
+  .catch(error => {
+    console.log("failure");
+    console.error(error);
+  })
+    } else {
+      console.log("else url", 'https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/update/' + this.state.taskItem4Id);
+      return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/update/' + this.state.taskItem4Id, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: this.state.taskItem4Id,
+          task_id: this.props.id,
+          task_item: this.state.taskItem4
+        })
+      })
+        .then(secResponse => {
+          console.log(secResponse)
+          alert('Task Item Changed')
+          this.setState({taskItem4: ''})
+          console.log("in sec response else");
+
+        })
+        .then(this.getData)
+        .catch(error => {
+          console.log('failure')
+          console.error(error)
+        })
+    }
+  }
+
+  taskItem5Change = value => {
+    this.setState({taskItem5: value})
+  }
+
+  showTextInputtaskItem5 = () => {
+    if (!this.state.editMode5) return <View />
+    return (
+      <View>
+        <TextInput style={styles.textInput} placeholder="Task Item" onChangeText={value => this.taskItem5Change(value)} />
+        <Button onPress={this.taskItem5Function} title="Task Item Change" accessibilityLabel="Task Item Change Button" />
+      </View>
+    )
+  }
+
+  taskItem5Function = () => {
+    console.log('in taskItem5Function')
+    if (this.state.taskItem5Id === undefined) {
+      console.log("in the if");
+      return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/create', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          task_id: this.props.id,
+          task_item: this.state.taskItem5,
+          done: false
+        })
+      })
+      .then(res => res.json())
+      .then(secResponse => {
+        alert('Task Item Changed')
+        this.setState({taskItem5: '', taskItem5Id: secResponse.id[0]})
+      })
+      .then(this.getData)
+  .catch(error => {
+    console.log("failure");
+    console.error(error);
+  })
+    } else {
+      console.log("else url", 'https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/update/' + this.state.taskItem5Id);
+      return fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/update/' + this.state.taskItem5Id, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: this.state.taskItem5Id,
+          task_id: this.props.id,
+          task_item: this.state.taskItem5
+        })
+      })
+        .then(secResponse => {
+          console.log(secResponse)
+          alert('Task Item Changed')
+          this.setState({taskItem5: ''})
+          console.log("in sec response else");
+
+        })
+        .then(this.getData)
+        .catch(error => {
+          console.log('failure')
+          console.error(error)
+        })
+    }
+  }
+
   render() {
     return (
       <View>
@@ -284,6 +620,11 @@ export default class Modal extends Component {
           accessibilityLabel="Update Button"
         />
         {this.showTextInputtaskItem5()}
+        <Button
+          onPress={() => console.log("state check", this.state)}
+          title='check state'
+          accessibilityLabel="Update Button"
+        />
       </View>
     )
   }

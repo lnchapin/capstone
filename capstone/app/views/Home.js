@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, Image, TouchableOpacity} from 'react-native'
+import {AppRegistry, Platform, StyleSheet, Text, View, TextInput, Button, AsyncStorage, Image, TouchableOpacity, ScrollView} from 'react-native'
 import {Actions} from 'react-native-router-flux'
 import Header from '../components/Header'
 import Dot from '../images/primitive-dot.png'
@@ -15,14 +15,12 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    // console.log("in component did mount");
     AsyncStorage.getItem('data').then(res => JSON.parse(res)).then((user) => {
       this.setState({userId: user.user_id})
     }).then(this.getUserTasks)
   }
 
   getUserTasks = () => {
-    // console.log("state at update", this.state);
     fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks/user/' + `${this.state.userId}`).then(res => res.json()).then(response => {
       this.setState({
         tasks: response
@@ -34,38 +32,37 @@ export default class Home extends Component {
   }
 
   displayUserTasks = () => {
-    // console.log(this.state);
     return this.state.tasks
-    .map(task =>
-      <View key={task.id} style={styles.taskBack}>
-        <Button
-          onPress={this.showTaskBreakdown.bind(this, task.id)}
-          title={task.task_name}
-          accessibilityLabel="Update Button"
-        />
-        {this.getTaskItems(task.id)}
-        <Text>Due Date: {task.date}</Text>
-        <View style={styles.container}>
+      .filter(task => task.active)
+      .map(task =>
+        <View key={task.id} style={styles.taskBack}>
           <Button
-            style={styles.button}
-            onPress={() => console.log("hi")}
-            title='Edit'
-            accessibilityLabel="Edit Task Button"
+            onPress={this.showTaskBreakdown.bind(this, task.id)}
+            title={task.task_name}
+            accessibilityLabel="Update Button"
           />
-          <Button
-            style={styles.button}
-            onPress={() => console.log("hi")}
-            title='Finish'
-            accessibilityLabel="Finish Task Button"
-          />
+          {this.getTaskItems(task.id)}
+          <Text>Due Date: {task.date}</Text>
+          <View style={styles.container}>
+            <Button
+              style={styles.button}
+              onPress={() => Actions.Modal({id: task.id})}
+              title='Edit'
+              accessibilityLabel="Edit Task Button"
+            />
+            <Button
+              style={styles.button}
+              onPress={this.markTaskFinished.bind(this, task.id)}
+              title='Finish'
+              accessibilityLabel="Finish Task Button"
+            />
+          </View>
         </View>
-      </View>
-    )
-
+      )
   }
 
+
   showTaskBreakdown = (val) => {
-    // console.log("showTaskBreakdown val", val);
     fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/task/' + val)
     .then(res => res.json())
     .then(response => {
@@ -93,8 +90,6 @@ export default class Home extends Component {
     )
 
     finishTask = ({task_id, id, done = false}) => {
-      // console.log("task_id in finish", task_id);
-      // console.log('state in finish', this.state);
       fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks_list/finished/' + id, {
         method: "PUT",
         headers: {
@@ -108,7 +103,6 @@ export default class Home extends Component {
       })
       .then(res => res.text())
       .then(response => {
-        // console.log(JSON.parse(response));
         if(response.error){
           alert(response.error)
         } else {
@@ -127,6 +121,28 @@ export default class Home extends Component {
       console.log('edit');
     }
 
+  markTaskFinished = (id) => {
+    fetch('https://fast-depths-36909.herokuapp.com/api/v1/tasks/finished/' + id, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id: id,
+        active: false
+      })
+  })
+  .then(res => res.json())
+  .then(response => {
+    alert(response)
+    console.log("Put response for " + id + ' ' + response);
+  }).then(this.getUserTasks)
+  .catch(function(error) {
+    console.log(error.message);
+    throw error;
+  });
+}
 
   render() {
     return (
@@ -137,13 +153,15 @@ export default class Home extends Component {
         onPress={()=> Actions.AddTask()}
         title='Add Task'
         accessibilityLabel="Add Task Button"/>
-      <View style={styles.myView}>
-        <Text style={styles.signUp}>Tasks</Text>
-        <View>
-          {this.displayUserTasks()}
+      <ScrollView >
+        <View style={styles.myView}>
+          <Text style={styles.signUp}>Tasks</Text>
+          <View>
+            {this.displayUserTasks()}
+          </View>
         </View>
-      </View>
-    </View>)
+      </ScrollView>
+  </View>)
   }
 }
 

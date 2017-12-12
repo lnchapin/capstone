@@ -46,17 +46,17 @@ return
 //   return
 // });
 //
-// router.put('/finished/:id', function(req, res, next) {
-//   let task_id =  ****should we Async Data task_id****
-//   return knex('task').where("id", task_id).update({
-//     active: false,
-//     })
-//   .then(function(result){
-//     res.send("task successfully finished");
-//   })
-//   return
-// });
-//
+router.put('/finished/:id', function(req, res, next) {
+  let task_id =  req.body.id
+  return knex('task').where("id", task_id).update({
+    active: false,
+    })
+  .then(function(result){
+    res.json("Task Successfully Finished");
+  })
+  return
+});
+
 // // router.delete('/:id', function(req, res, next) {
 // //   let task_id =  ****should we Async Data task_id****
 // //   return knex('task').where("id", task_id).del()

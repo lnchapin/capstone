@@ -8,7 +8,6 @@ export default class AddTask extends Component {
     super()
     this.state = {
       task_name: '',
-      task_item_arr: [],
       task_item_1: '',
       task_item_2: '',
       task_item_3: '',
@@ -17,7 +16,6 @@ export default class AddTask extends Component {
       task_id: -1,
       date: '',
       time: '',
-      active: true,
       userId: -1
     }
   }
@@ -88,14 +86,6 @@ export default class AddTask extends Component {
   }
 
   addTask = () => {
-    // console.log(this.state.task_name);
-    // console.log(this.state.task_item_1, this.state.task_item_2, this.state.task_item_3,  this.state.task_item_4, this.state.task_item_5);
-    // console.log(this.state.date);
-    // console.log(this.state.time);
-
-  //   this.setState({
-  //   task_item: [{task_id: this.state.task_id, task_item: this.state.task_item_1}, {task_id: this.state.task_id, task_item: this.state.task_item_2}, {task_id: this.state.task_id, task_item: this.state.task_item_3}, {task_id: this.state.task_id, task_item: this.state.task_item_4}, {task_id: this.state.task_id, task_item: this.state.task_item_5}]
-  // })
     fetch("https://fast-depths-36909.herokuapp.com/api/v1/tasks/create", {
       method: "POST",
       headers: {
@@ -145,7 +135,21 @@ export default class AddTask extends Component {
       },
       body: JSON.stringify(task_item_arr)
     })
-  })
+  }).then(secResponse =>{
+    console.log(secResponse)
+    alert("Task Added")
+    this.setState({
+      task_name: '',
+      task_item_1: '',
+      task_item_2: '',
+      task_item_3: '',
+      task_item_4: '',
+      task_item_5: '',
+      task_id: -1,
+      date: '',
+      time: ''
+    })}
+  )
     .catch(error => {
       console.log("failure");
       console.error(error);

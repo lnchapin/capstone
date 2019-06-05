@@ -7,10 +7,10 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"native-base": "^2.3.4",
+		"native-base": "^2.12.1",
 		"react": "16.0.0",
-		"react-native": "0.50.4",
-		"react-native-router-flux": "^4.0.0-beta.24",
+		"react-native": "^0.59.8",
+		"react-native-router-flux": "^4.0.0-beta.32",
 		"react-navigation": "^1.0.0-beta.21"
 	},
 	"devDependencies": {
